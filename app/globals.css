@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta SIMA Odontología */
+  --color-sima-light: #F8FAFC;
+  --color-sima-gray: #E2E8F0;
+  --color-sima-dark: #1E293B;
+  --color-sima-accent: #38BDF8;
+  --color-sima-accent-hover: #0EA5E9;
+  --color-sima-nude: #E6D5C3;
+
+  /* Tipografía */
+  --font-sans: var(--font-inter);
+}
+
+:root {
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scroll suave global */
+html {
+  scroll-behavior: smooth;
+}
