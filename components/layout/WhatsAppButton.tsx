@@ -13,7 +13,7 @@ export default function WhatsAppButton() {
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
       className="
-        fixed bottom-6 right-6 z-50
+        fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50
         flex items-center justify-center
         w-16 h-16 rounded-full
         bg-[#25D366] text-white shadow-2xl
