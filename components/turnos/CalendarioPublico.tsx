@@ -257,7 +257,7 @@ function SelectorHorarios({
           {fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}
         </span>
       </h3>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2.5">
         {HORARIOS.map((hora) => {
           const ocupado = ocupados.includes(hora);
           return (
@@ -267,10 +267,10 @@ function SelectorHorarios({
               onClick={() => onSelect(hora)}
               aria-label={`Turno a las ${hora}${ocupado ? " (ocupado)" : ""}`}
               className={`
-                px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all
+                px-3 py-3.5 rounded-xl text-base font-bold border-2 transition-all
                 ${ocupado
-                  ? "border-sima-gray bg-sima-gray text-slate-400 line-through cursor-not-allowed"
-                  : "border-sima-accent/30 bg-sima-accent/5 text-sima-accent hover:bg-sima-accent hover:text-white hover:border-sima-accent hover:scale-105 active:scale-95"
+                  ? "border-sima-gray bg-sima-gray text-sima-mid line-through cursor-not-allowed"
+                  : "border-sima-dark/20 bg-white text-sima-dark hover:bg-sima-dark hover:text-white hover:border-sima-dark hover:scale-105 active:scale-95"
                 }
               `}
             >
@@ -357,24 +357,24 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
       {/* ── Panel izquierdo: Calendario ── */}
       <div className="bg-white rounded-2xl border border-sima-gray shadow-sm p-5">
         {/* Cabecera mes */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-6">
           <button
             onClick={prevMonth}
             disabled={isPrevDisabled}
             aria-label="Mes anterior"
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-sima-gray disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-sima-gray disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft className="w-5 h-5 text-sima-dark" />
           </button>
 
-          <h2 className="font-bold text-sima-dark text-lg">
+          <h2 className="font-extrabold text-sima-dark text-xl">
             {MESES[viewMonth]} {viewYear}
           </h2>
 
           <button
             onClick={nextMonth}
             aria-label="Mes siguiente"
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-sima-gray transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-sima-gray transition-colors"
           >
             <ChevronRight className="w-5 h-5 text-sima-dark" />
           </button>
@@ -383,19 +383,19 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
         {/* Grilla días semana */}
         <div className="grid grid-cols-7 mb-2">
           {DIAS_SEMANA.map((d) => (
-            <div key={d} className="text-center text-xs font-semibold text-slate-400 py-1">
+            <div key={d} className="text-center text-xs font-bold text-sima-mid py-2">
               {d}
             </div>
           ))}
         </div>
 
         {/* Grilla días del mes */}
-        <div className="grid grid-cols-7 gap-y-1">
+        <div className="grid grid-cols-7 gap-y-1.5">
           {blanks.map((_, i) => <div key={`b-${i}`} />)}
           {days.map((day) => {
             const date = new Date(viewYear, viewMonth, day);
             const disabled = isDayDisabled(day);
-            const isToday = isSameDay(date, today); // solo referencia visual, siempre deshabilitado
+            const isToday = isSameDay(date, today);
             const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
             const isoDate = toISO(date);
             const hasSlotsTaken = !disabled && (turnosOcupados[isoDate]?.length ?? 0) > 0;
@@ -409,22 +409,21 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
                 aria-label={`${day} de ${MESES[viewMonth]}`}
                 aria-pressed={isSelected}
                 className={`
-                  relative mx-auto w-9 h-9 rounded-full text-sm font-medium
+                  relative mx-auto w-11 h-11 rounded-xl text-base font-semibold
                   flex items-center justify-center transition-all
                   ${disabled || fullyBooked
-                    ? "text-slate-300 cursor-not-allowed"
+                    ? "text-sima-gray cursor-not-allowed"
                     : isSelected
-                      ? "bg-sima-accent text-white shadow-md shadow-sima-accent/30 scale-110"
+                      ? "bg-sima-dark text-white shadow-md scale-105"
                       : isToday
                         ? "ring-2 ring-sima-accent text-sima-accent font-bold hover:bg-sima-accent hover:text-white"
-                        : "text-sima-dark hover:bg-sima-accent/10"
+                        : "text-sima-dark hover:bg-sima-accent hover:text-white"
                   }
                 `}
               >
                 {day}
-                {/* Punto indicador de slots parcialmente ocupados */}
                 {hasSlotsTaken && !fullyBooked && !isSelected && (
-                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-400" />
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-amber-400" />
                 )}
               </button>
             );
