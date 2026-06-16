@@ -50,8 +50,13 @@ export function AdminNav() {
   );
 }
 
-export function AdminNavMobile() {
+export function AdminBottomNav() {
   const pathname = usePathname();
+
+  function isActive(href: string) {
+    if (href === "/admin") return pathname === "/admin";
+    return pathname === href || pathname.startsWith(href + "/");
+  }
 
   const ALL = [
     ...NAV,
@@ -59,18 +64,26 @@ export function AdminNavMobile() {
   ];
 
   return (
-    <>
-      {ALL.map(({ href, icon: Icon, label }) => (
-        <Link key={href} href={href} aria-label={label}
-          className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors
-            ${pathname === href || (href !== "/admin" && pathname.startsWith(href))
-              ? "text-sima-accent bg-white/10"
-              : "text-slate-400 hover:text-white hover:bg-white/10"
-            }`}
-        >
-          <Icon className="w-4 h-4" />
-        </Link>
-      ))}
-    </>
+    <nav
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-sima-dark border-t border-white/5 flex items-stretch"
+      aria-label="Navegación admin"
+    >
+      {ALL.map(({ href, icon: Icon, label }) => {
+        const active = isActive(href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`
+              flex-1 flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-bold transition-colors
+              ${active ? "text-sima-accent" : "text-slate-400 hover:text-white"}
+            `}
+          >
+            <Icon className="w-5 h-5" aria-hidden="true" />
+            {label}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }

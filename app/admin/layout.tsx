@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { LogOut } from "lucide-react";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { logout } from "./login/actions";
-import { AdminNav, AdminNavMobile } from "@/components/admin/AdminNav";
+import { AdminNav, AdminBottomNav } from "@/components/admin/AdminNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const headersList = await headers();
@@ -57,21 +57,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </div>
             <span className="text-white font-bold text-sm">SIMA Admin</span>
           </div>
-          <nav className="flex items-center gap-1">
-            <AdminNavMobile />
-            <form action={logout}>
-              <button type="submit" aria-label="Cerrar sesión"
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors">
-                <LogOut className="w-4 h-4" />
-              </button>
-            </form>
-          </nav>
+          <form action={logout}>
+            <button type="submit" aria-label="Cerrar sesión"
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+              <LogOut className="w-4 h-4" />
+            </button>
+          </form>
         </header>
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-20 md:pb-8 overflow-auto">
           {children}
         </main>
       </div>
+
+      <AdminBottomNav />
     </div>
   );
 }

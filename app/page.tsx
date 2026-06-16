@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, Phone, MapPin, Clock, Star, ArrowRight, CheckCircle, Home, Grid3x3 } from "lucide-react";
+import { Calendar, Phone, MapPin, Clock, Star, ArrowRight, CheckCircle } from "lucide-react";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ServiciosGrid from "@/components/landing/ServiciosGrid";
 
@@ -53,39 +53,6 @@ function Navbar() {
         </span>
       </div>
     </header>
-  );
-}
-
-/* ─── Bottom nav (mobile only) ───────────────────────────────────── */
-
-function BottomNav() {
-  return (
-    <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-sima-gray flex items-stretch safe-area-inset-bottom"
-      aria-label="Navegación principal"
-    >
-      {[
-        { href: "/",          icon: Home,      label: "Inicio"    },
-        { href: "/turnos",    icon: Calendar,  label: "Turnos",   highlight: true },
-        { href: "#servicios", icon: Grid3x3,   label: "Servicios" },
-        { href: "#horarios",  icon: Clock,     label: "Horarios"  },
-      ].map(({ href, icon: Icon, label, highlight }) => (
-        <Link
-          key={label}
-          href={href}
-          className={`
-            flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[10px] font-bold transition-colors
-            ${highlight
-              ? "bg-sima-dark text-white"
-              : "text-sima-mid hover:text-sima-dark"
-            }
-          `}
-        >
-          <Icon className="w-5 h-5" aria-hidden="true" />
-          {label}
-        </Link>
-      ))}
-    </nav>
   );
 }
 
@@ -401,7 +368,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <main className="pb-16 md:pb-0">
+      <main>
         <Hero />
         <ServiciosSection />
         <HorariosSection />
@@ -409,8 +376,7 @@ export default function HomePage() {
         <CtaSection />
       </main>
       <Footer />
-      <BottomNav />
-      <WhatsAppButton/>
+      <WhatsAppButton />
     </>
   );
 }
