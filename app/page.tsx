@@ -229,13 +229,13 @@ function HorariosSection() {
             </Link>
           </div>
 
-          {/* Fotos consultorio — solo mobile (desktop las muestro abajo) */}
+          {/* Fotos consultorio — solo mobile */}
           <div className="grid grid-cols-2 gap-2 lg:hidden">
             {[
-              { src: "/fachada.png",       alt: "Fachada del consultorio SIMA" },
+              { src: "/fachada.png",        alt: "Fachada del consultorio SIMA" },
               { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
             ].map(({ src, alt }) => (
-              <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+              <div key={src} className="relative rounded-2xl overflow-hidden aspect-[3/2]">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
               </div>
             ))}
@@ -270,13 +270,14 @@ function HorariosSection() {
         </div>
 
         {/* Fotos consultorio — fila completa (desktop) */}
-        <div className="hidden lg:grid grid-cols-2 gap-3 mt-2">
+        <div className="hidden lg:grid grid-cols-3 gap-3 mt-8">
           {[
             { src: "/fachada.png",        alt: "Fachada del consultorio SIMA" },
             { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
+            { src: "/sala.jpg",           alt: "Interior del consultorio SIMA" },
           ].map(({ src, alt }) => (
-            <div key={src} className="relative rounded-2xl overflow-hidden aspect-[16/7]">
-              <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
+            <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+              <Image src={src} alt={alt} fill className="object-cover" sizes="33vw" />
             </div>
           ))}
         </div>

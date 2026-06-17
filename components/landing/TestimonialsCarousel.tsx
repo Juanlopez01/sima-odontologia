@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 const TESTIMONIALS = [
@@ -21,9 +21,18 @@ const TESTIMONIALS = [
 
 export default function TestimonialsCarousel() {
   const ref = useRef<HTMLDivElement>(null);
+  const [current, setCurrent] = useState(1);
 
   const scroll = (dir: "left" | "right") => {
     ref.current?.scrollBy({ left: dir === "left" ? -340 : 340, behavior: "smooth" });
+  };
+
+  const handleScroll = () => {
+    if (!ref.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = ref.current;
+    const maxScroll = scrollWidth - clientWidth;
+    const index = Math.round((scrollLeft / maxScroll) * (TESTIMONIALS.length - 1));
+    setCurrent(index + 1);
   };
 
   return (
@@ -35,27 +44,33 @@ export default function TestimonialsCarousel() {
             <span className="text-[11px] font-bold tracking-widest text-sima-mid uppercase">Opiniones</span>
             <h2 className="text-2xl sm:text-3xl font-black text-sima-dark">Lo que dicen nuestros pacientes</h2>
           </div>
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => scroll("left")}
-              aria-label="Anterior"
-              className="w-9 h-9 rounded-full border border-sima-gray flex items-center justify-center text-sima-mid hover:text-sima-dark hover:border-sima-dark transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              aria-label="Siguiente"
-              className="w-9 h-9 rounded-full border border-sima-gray flex items-center justify-center text-sima-mid hover:text-sima-dark hover:border-sima-dark transition-colors"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="text-sm font-bold text-sima-mid tabular-nums">
+              {current} <span className="font-normal text-sima-gray">/ {TESTIMONIALS.length}</span>
+            </span>
+            <div className="hidden sm:flex items-center gap-2">
+              <button
+                onClick={() => scroll("left")}
+                aria-label="Anterior"
+                className="w-9 h-9 rounded-full border border-sima-gray flex items-center justify-center text-sima-mid hover:text-sima-dark hover:border-sima-dark transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                aria-label="Siguiente"
+                className="w-9 h-9 rounded-full border border-sima-gray flex items-center justify-center text-sima-mid hover:text-sima-dark hover:border-sima-dark transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Carrusel */}
         <div
           ref={ref}
+          onScroll={handleScroll}
           className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {TESTIMONIALS.map(({ name, initials, text }) => (

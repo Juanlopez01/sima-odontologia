@@ -183,20 +183,15 @@ export default function ServiciosGrid() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Con fotos: grilla estática */}
+      {/* Con fotos: 2 columnas */}
       <div className="grid sm:grid-cols-2 gap-4">
         {featured.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
 
-      {/* Sin fotos: carrusel horizontal */}
-      <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {basic.map((s) => (
-          <div key={s.num} className="snap-start shrink-0 w-[80%] sm:w-[300px]">
-            <ServicioCard s={s} />
-          </div>
-        ))}
+      {/* Sin fotos: grilla 2-3 columnas */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {basic.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
-      <p className="text-center text-white/30 text-xs">← deslizá para ver más →</p>
     </div>
   );
 }
