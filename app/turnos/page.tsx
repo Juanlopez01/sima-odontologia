@@ -82,8 +82,8 @@ export default async function TurnosPage() {
           {/* Info rápida */}
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { label: "Horario de atención", value: "Lun–Vie · 9:00 a 18:00" },
-              { label: "Dirección", value: "Av. Ejemplo 1234, CABA" },
+              { label: "Horario de atención", value: "Lun–Sáb · ver horarios" },
+              { label: "Dirección", value: "Av. Rivadavia 1561, Congreso" },
               { label: "Primera consulta", value: "100% sin cargo" },
             ].map(({ label, value }) => (
               <div
