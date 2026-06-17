@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, ArrowLeft } from "lucide-react";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import CalendarioPublico from "@/components/turnos/CalendarioPublico";
@@ -42,13 +43,8 @@ export default async function TurnosPage() {
       {/* Navbar mínima */}
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm border-b border-sima-gray">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="w-8 h-8 rounded-full bg-sima-accent flex items-center justify-center group-hover:scale-105 transition-transform">
-              <span className="text-white font-bold text-sm">S</span>
-            </span>
-            <span className="font-semibold text-sima-dark text-lg tracking-tight">
-              SIMA<span className="text-sima-accent">.</span>
-            </span>
+          <Link href="/">
+            <Image src="/logo.png" alt="SIMA Odontología" height={34} width={122} className="object-contain" priority />
           </Link>
           <Link
             href="/"

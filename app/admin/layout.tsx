@@ -19,14 +19,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside className="hidden md:flex flex-col w-60 bg-sima-dark border-r border-white/5 shrink-0">
         {/* Logo */}
         <div className="h-16 flex items-center gap-2.5 px-5 border-b border-white/5 shrink-0">
-          <div className="w-8 h-8 rounded-full bg-sima-accent flex items-center justify-center shrink-0">
-            <span className="text-white font-bold text-sm">S</span>
+          <div className="w-8 h-8 rounded-full bg-sima-brand/20 border border-sima-brand/30 flex items-center justify-center shrink-0">
+            <span className="text-sima-brand font-bold text-sm">S</span>
           </div>
           <div>
-            <p className="text-white font-bold text-sm tracking-tight leading-none">
-              SIMA<span className="text-sima-accent">.</span>
-            </p>
-            <p className="text-slate-500 text-xs">Admin</p>
+            <p className="text-white font-bold text-sm tracking-tight leading-none">SIMA</p>
+            <p className="text-sima-brand/60 text-xs tracking-widest uppercase">Admin</p>
           </div>
         </div>
 
@@ -52,8 +50,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="flex-1 flex flex-col min-w-0">
         <header className="md:hidden h-14 bg-sima-dark border-b border-white/5 flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-sima-accent flex items-center justify-center">
-              <span className="text-white font-bold text-xs">S</span>
+            <div className="w-7 h-7 rounded-full bg-sima-brand/20 border border-sima-brand/30 flex items-center justify-center">
+              <span className="text-sima-brand font-bold text-xs">S</span>
             </div>
             <span className="text-white font-bold text-sm">SIMA Admin</span>
           </div>

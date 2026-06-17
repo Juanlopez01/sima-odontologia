@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, Phone, MapPin, Clock, Star, ArrowRight, CheckCircle } from "lucide-react";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ServiciosGrid from "@/components/landing/ServiciosGrid";
@@ -23,13 +24,8 @@ function Navbar() {
     <header className="fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-sima-gray">
       <div className="max-w-5xl mx-auto px-5 h-14 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-8 h-8 rounded-xl bg-sima-dark flex items-center justify-center group-hover:bg-sima-accent transition-colors duration-200">
-            <ToothIcon className="w-4 h-4 text-white" />
-          </span>
-          <span className="font-black text-sima-dark tracking-tight">
-            SIMA<span className="text-sima-accent">.</span>
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.png" alt="SIMA Odontología" height={36} width={130} className="object-contain" priority />
         </Link>
 
         {/* Nav desktop */}
@@ -47,10 +43,10 @@ function Navbar() {
           Pedir turno
         </Link>
 
-        {/* Nombre centrado mobile */}
-        <span className="md:hidden font-black text-sima-dark tracking-tight absolute left-1/2 -translate-x-1/2 pointer-events-none">
-          SIMA<span className="text-sima-accent">.</span>
-        </span>
+        {/* Logo mobile centrado */}
+        <Link href="/" className="md:hidden absolute left-1/2 -translate-x-1/2">
+          <Image src="/logo.png" alt="SIMA Odontología" height={30} width={108} className="object-contain" priority />
+        </Link>
       </div>
     </header>
   );
@@ -344,10 +340,10 @@ function Footer() {
     <footer className="bg-sima-dark border-t border-white/5 py-8">
       <div className="max-w-5xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-            <ToothIcon className="w-3.5 h-3.5 text-white" />
+          <span className="w-7 h-7 rounded-lg bg-sima-brand/30 flex items-center justify-center">
+            <ToothIcon className="w-3.5 h-3.5 text-sima-brand" />
           </span>
-          <span className="font-black text-white text-sm">SIMA Odontología</span>
+          <span className="font-bold text-white/80 text-sm tracking-wide">SIMA Odontología</span>
         </div>
         <p className="text-white/20 text-xs text-center">
           © {new Date().getFullYear()} SIMA Odontología · Todos los derechos reservados

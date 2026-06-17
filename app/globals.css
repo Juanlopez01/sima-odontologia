@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta SIMA — sobria, grises neutros */
-  --color-sima-light:        #F4F4F5;   /* zinc-100 */
-  --color-sima-gray:         #E4E4E7;   /* zinc-200 */
-  --color-sima-mid:          #A1A1AA;   /* zinc-400 */
-  --color-sima-dark:         #27272A;   /* zinc-800 */
-  --color-sima-accent:       #0EA5E9;   /* sky-500  */
-  --color-sima-accent-hover: #0284C7;   /* sky-600  */
-  --color-sima-nude:         #E6D5C3;
+  /* Paleta SIMA — derivada del logo */
+  --color-sima-light:        #F2F5F7;   /* azul-gris muy claro */
+  --color-sima-gray:         #DDE4E8;   /* azul-gris suave */
+  --color-sima-mid:          #8D969F;   /* gris-pizarra medio */
+  --color-sima-dark:         #2E3235;   /* casi negro cálido */
+  --color-sima-accent:       #5E8FA4;   /* azul-acero del logo */
+  --color-sima-accent-hover: #4D7D92;   /* azul-acero más oscuro */
+  --color-sima-brand:        #A8BFC8;   /* círculo claro del logo */
 
   /* Tipografía */
   --font-sans: var(--font-inter);
 }
 
 :root {
-  --background: #F4F4F5;
-  --foreground: #27272A;
+  --background: #F2F5F7;
+  --foreground: #2E3235;
 }
 
 body {
