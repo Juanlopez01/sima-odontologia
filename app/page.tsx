@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Calendar, Phone, MapPin, Clock, Star, ArrowRight, CheckCircle } from "lucide-react";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ServiciosGrid from "@/components/landing/ServiciosGrid";
+import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 
 /* ─── Ícono diente ───────────────────────────────────────────────── */
 
@@ -285,54 +286,6 @@ function HorariosSection() {
   );
 }
 
-/* ─── Testimonios (solo desktop) ─────────────────────────────────── */
-
-const TESTIMONIALS = [
-  { name: "Raul Luna",                   initials: "RL", text: "La calidad del servicio brindado por Macarena es excelente. Recuperé la confianza en mi sonrisa luego de pasar por un tratamiento de limpieza muy bien efectuado por una excelente profesional.", stars: 5 },
-  { name: "Lujan Figueroa",              initials: "LF", text: "Excelente atención, y muy profesional la Doc Macarena, me sentí muy cómoda, podés preguntar las dudas que tengas, y aun después de mi cita le mandé y me respondió muy amable.", stars: 5 },
-  { name: "Honoria Longhi",              initials: "HL", text: "Excelente profesional Maca! Súper amable y muy atenta, la recomiendo!", stars: 5 },
-  { name: "Santiago Iglesias Bracco",    initials: "SI", text: "Excelente atención, amabilidad y puntualidad. Realmente contento con todo lo hecho; blanqueamiento, caries y seguiré yendo! 100% recomendable. Gracias", stars: 5 },
-  { name: "Santiago Gallo",              initials: "SG", text: "Trabajo impecable. Super profesional. Me hizo de todo, inclusive blanqueamiento y todo increíble. Gracias", stars: 5 },
-  { name: "Carolina Maya Bornacelly",    initials: "CM", text: "Excelente doctora, soy Colombiana y ella de urgencia me ayudó a restaurar un diente de manera inmediata. Muy empática y querida conmigo como paciente. El trabajo realizado fue excelente. Muchas gracias", stars: 5 },
-  { name: "Julieta Erika Fernandez",     initials: "JF", text: "La experiencia fue muy buena. Recibí una atención adecuada y amable. La odontóloga me iba explicando todo el trabajo. Un espacio muy lindo y limpio. Recibí mi placa de bruxismo super rápido y en perfectas condiciones!", stars: 5 },
-  { name: "Clau Saa",                    initials: "CS", text: "Excelente lugar, la doctora es buenísima, todos los materiales que usa son de primera marca, vale la pena y lo recomiendo. Me hice un arreglo de caries en una pieza visible estéticamente y quedó perfecta.", stars: 5 },
-  { name: "Veronica Gudiño",             initials: "VG", text: "Excelente profesional, muy amable, yo me hice un blanqueamiento y el resultado fue espectacular. Muchas gracias Dra. Sirimarco.", stars: 5 },
-  { name: "Nahuel Maza",                 initials: "NM", text: "Excelente atención y muy buen servicio. En mi caso me realicé un blanqueamiento y los resultados fueron mucho mejores de lo esperado.", stars: 5 },
-  { name: "Agus Rodriguez",              initials: "AR", text: "Súper recomendable!!! Excelente profesional, dedicada y amable. Me cambió la sonrisa!!", stars: 5 },
-  { name: "Luz Botta",                   initials: "LB", text: "Excelente atención! Me realicé un blanqueamiento y quedé muy conforme con el resultado, super recomendable.", stars: 5 },
-  { name: "Lic. Milagros Casale",        initials: "MC", text: "Excelente! Me hice un blanqueamiento y quedé super contenta con los resultados. Maca es una genia!", stars: 5 },
-];
-
-function TestimonialsSection() {
-  return (
-    <section className="hidden sm:block py-20 bg-white border-t border-sima-gray">
-      <div className="max-w-5xl mx-auto px-5 flex flex-col gap-10">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-[11px] font-bold tracking-widest text-sima-mid uppercase">Opiniones</span>
-          <h2 className="text-3xl font-black text-sima-dark">Lo que dicen nuestros pacientes</h2>
-        </div>
-        <div className="grid sm:grid-cols-3 gap-4">
-          {TESTIMONIALS.map(({ name, initials, text, stars }) => (
-            <blockquote key={name} className="bg-sima-light rounded-2xl p-6 border border-sima-gray flex flex-col gap-4">
-              <div className="flex gap-0.5" aria-label={`${stars} estrellas`}>
-                {[...Array(stars)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                ))}
-              </div>
-              <p className="text-sima-dark text-sm leading-relaxed flex-1">&ldquo;{text}&rdquo;</p>
-              <footer className="flex items-center gap-3 pt-2 border-t border-sima-gray">
-                <div className="w-9 h-9 rounded-full bg-sima-dark text-white flex items-center justify-center font-black text-xs shrink-0">
-                  {initials}
-                </div>
-                <span className="text-sm font-bold text-sima-dark">{name}</span>
-              </footer>
-            </blockquote>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ─── CTA final ──────────────────────────────────────────────────── */
 
@@ -403,7 +356,7 @@ export default function HomePage() {
         <Hero />
         <ServiciosSection />
         <HorariosSection />
-        <TestimonialsSection />
+        <TestimonialsCarousel />
         <CtaSection />
       </main>
       <Footer />

@@ -106,10 +106,7 @@ function ServicioCard({ s }: { s: Servicio }) {
   const waMsg = encodeURIComponent(`Hola! Me gustaría consultar el precio de ${s.titulo}.`);
 
   return (
-    <article className={`
-      bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col
-      ${s.fotos ? "sm:col-span-2" : ""}
-    `}>
+    <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full">
       {/* Fotos antes/después */}
       {s.fotos && (
         <div className="grid grid-cols-2">
@@ -181,11 +178,25 @@ function ServicioCard({ s }: { s: Servicio }) {
 }
 
 export default function ServiciosGrid() {
+  const featured = SERVICIOS.filter((s) => s.fotos);
+  const basic    = SERVICIOS.filter((s) => !s.fotos);
+
   return (
-    <div className="grid sm:grid-cols-2 gap-4">
-      {SERVICIOS.map((s) => (
-        <ServicioCard key={s.num} s={s} />
-      ))}
+    <div className="flex flex-col gap-4">
+      {/* Con fotos: grilla estática */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        {featured.map((s) => <ServicioCard key={s.num} s={s} />)}
+      </div>
+
+      {/* Sin fotos: carrusel horizontal */}
+      <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {basic.map((s) => (
+          <div key={s.num} className="snap-start shrink-0 w-[80%] sm:w-[300px]">
+            <ServicioCard s={s} />
+          </div>
+        ))}
+      </div>
+      <p className="text-center text-white/30 text-xs">← deslizá para ver más →</p>
     </div>
   );
 }
