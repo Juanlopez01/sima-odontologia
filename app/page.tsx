@@ -228,6 +228,18 @@ function HorariosSection() {
             </Link>
           </div>
 
+          {/* Fotos consultorio — solo mobile (desktop las muestro abajo) */}
+          <div className="grid grid-cols-2 gap-2 lg:hidden">
+            {[
+              { src: "/fachada.png",       alt: "Fachada del consultorio SIMA" },
+              { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
+            ].map(({ src, alt }) => (
+              <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+                <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
+              </div>
+            ))}
+          </div>
+
           {/* Tabla */}
           <div className="bg-white rounded-2xl border border-sima-gray overflow-hidden shadow-sm">
             <div className="px-5 py-3 border-b border-sima-gray bg-sima-dark">
@@ -255,6 +267,19 @@ function HorariosSection() {
           </div>
 
         </div>
+
+        {/* Fotos consultorio — fila completa (desktop) */}
+        <div className="hidden lg:grid grid-cols-2 gap-3 mt-2">
+          {[
+            { src: "/fachada.png",        alt: "Fachada del consultorio SIMA" },
+            { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
+          ].map(({ src, alt }) => (
+            <div key={src} className="relative rounded-2xl overflow-hidden aspect-[16/7]">
+              <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

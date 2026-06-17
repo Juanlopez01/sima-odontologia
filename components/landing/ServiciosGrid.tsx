@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, X, Clock, CreditCard, Banknote, MessageCircle } from "lucide-react";
 
 type Precios = { debito: string; efectivo: string };
+type Fotos   = { antes: string; despues: string; labelDespues?: string };
 
 type Servicio = {
   id: string;
@@ -14,6 +16,7 @@ type Servicio = {
   descripcion: string;
   sesiones: string;
   precios?: Precios;
+  fotos?: Fotos;
   whatsapp?: true;
 };
 
@@ -57,6 +60,10 @@ const SERVICIOS: Servicio[] = [
       "1ª sesión: evaluación de encías, limpieza dental y aplicación de gel blanqueador con luz halógena. 2ª sesión (una semana después): se refuerza el tratamiento para un tono más uniforme. Incluye kit de cuidado.",
     sesiones: "2 sesiones",
     precios: { debito: "$252.600", efectivo: "$220.000" },
+    fotos: {
+      antes:   "/blanqueamiento-antes.jpeg",
+      despues: "/blanqueamiento-despues.png",
+    },
   },
   {
     id: "tratcon",
@@ -77,6 +84,11 @@ const SERVICIOS: Servicio[] = [
       "1ª visita: evaluamos tu caso y hacemos la impresión. 2ª visita (5 a 7 días después): prueba en boca para verificar ajuste y confort, ultimamos detalles y entregamos.",
     sesiones: "2 visitas · 7 días",
     precios: { debito: "$218.600", efectivo: "$190.000" },
+    fotos: {
+      antes:        "/bruxismo-antes.jpg",
+      despues:      "/bruxismo-despues.jpg",
+      labelDespues: "Con placa",
+    },
   },
   {
     id: "implantes",
@@ -90,7 +102,7 @@ const SERVICIOS: Servicio[] = [
   },
 ];
 
-const WA_NUMBER = "5491100000000"; // Reemplazar con el número real
+const WA_NUMBER = "5491100000000"; // Reemplazar con número real
 
 export default function ServiciosGrid() {
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -102,7 +114,7 @@ export default function ServiciosGrid() {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Grid */}
+      {/* Grid de cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {SERVICIOS.map((s) => {
           const isActive = activeId === s.id;
@@ -154,6 +166,33 @@ export default function ServiciosGrid() {
           </div>
 
           <div className="px-5 py-4 flex flex-col gap-4">
+            {/* Antes / Después */}
+            {active.fotos && (
+              <div className="grid grid-cols-2 gap-2">
+                {(["antes", "despues"] as const).map((key) => (
+                  <div key={key} className="relative rounded-xl overflow-hidden aspect-[4/3]">
+                    <Image
+                      src={active.fotos![key]}
+                      alt={`${active.titulo} — ${key === "antes" ? "Antes" : (active.fotos!.labelDespues ?? "Después")}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 45vw, 300px"
+                    />
+                    <span className={`
+                      absolute bottom-2 left-2 text-[11px] font-bold px-2 py-0.5 rounded-full
+                      ${key === "antes"
+                        ? "bg-black/50 text-white/90"
+                        : "bg-sima-accent/90 text-white"
+                      }
+                    `}>
+                      {key === "antes" ? "Antes" : (active.fotos!.labelDespues ?? "Después")}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Descripción */}
             <p className="text-slate-600 text-sm leading-relaxed">{active.descripcion}</p>
 
             {/* Sesiones */}
@@ -165,7 +204,7 @@ export default function ServiciosGrid() {
               </div>
             </div>
 
-            {/* Precios reales */}
+            {/* Precios */}
             {active.precios && (
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-sima-light rounded-xl px-4 py-2.5 flex flex-col gap-0.5">
