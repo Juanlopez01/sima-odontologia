@@ -157,7 +157,7 @@ function ServiciosSection() {
               ¿Qué necesitás?
             </h2>
             <p className="text-white/40 text-sm">
-              Tocá un tratamiento para ver detalles y precio.
+              Precios, fotos y todo lo que necesitás saber.
             </p>
           </div>
           <Link
@@ -288,9 +288,19 @@ function HorariosSection() {
 /* ─── Testimonios (solo desktop) ─────────────────────────────────── */
 
 const TESTIMONIALS = [
-  { name: "María G.",   initials: "MG", text: "Me hice las carillas y quedé encantada. El trato es increíble y los resultados superaron mis expectativas.",   stars: 5 },
-  { name: "Roberto S.", initials: "RS", text: "Tenía miedo al dentista y acá me sentí cómodo desde el primer momento. El implante quedó perfecto.",           stars: 5 },
-  { name: "Laura P.",   initials: "LP", text: "El blanqueamiento fue rápido e indoloro. En una sesión noté una diferencia enorme. Lo recomiendo totalmente.", stars: 5 },
+  { name: "Raul Luna",                   initials: "RL", text: "La calidad del servicio brindado por Macarena es excelente. Recuperé la confianza en mi sonrisa luego de pasar por un tratamiento de limpieza muy bien efectuado por una excelente profesional.", stars: 5 },
+  { name: "Lujan Figueroa",              initials: "LF", text: "Excelente atención, y muy profesional la Doc Macarena, me sentí muy cómoda, podés preguntar las dudas que tengas, y aun después de mi cita le mandé y me respondió muy amable.", stars: 5 },
+  { name: "Honoria Longhi",              initials: "HL", text: "Excelente profesional Maca! Súper amable y muy atenta, la recomiendo!", stars: 5 },
+  { name: "Santiago Iglesias Bracco",    initials: "SI", text: "Excelente atención, amabilidad y puntualidad. Realmente contento con todo lo hecho; blanqueamiento, caries y seguiré yendo! 100% recomendable. Gracias", stars: 5 },
+  { name: "Santiago Gallo",              initials: "SG", text: "Trabajo impecable. Super profesional. Me hizo de todo, inclusive blanqueamiento y todo increíble. Gracias", stars: 5 },
+  { name: "Carolina Maya Bornacelly",    initials: "CM", text: "Excelente doctora, soy Colombiana y ella de urgencia me ayudó a restaurar un diente de manera inmediata. Muy empática y querida conmigo como paciente. El trabajo realizado fue excelente. Muchas gracias", stars: 5 },
+  { name: "Julieta Erika Fernandez",     initials: "JF", text: "La experiencia fue muy buena. Recibí una atención adecuada y amable. La odontóloga me iba explicando todo el trabajo. Un espacio muy lindo y limpio. Recibí mi placa de bruxismo super rápido y en perfectas condiciones!", stars: 5 },
+  { name: "Clau Saa",                    initials: "CS", text: "Excelente lugar, la doctora es buenísima, todos los materiales que usa son de primera marca, vale la pena y lo recomiendo. Me hice un arreglo de caries en una pieza visible estéticamente y quedó perfecta.", stars: 5 },
+  { name: "Veronica Gudiño",             initials: "VG", text: "Excelente profesional, muy amable, yo me hice un blanqueamiento y el resultado fue espectacular. Muchas gracias Dra. Sirimarco.", stars: 5 },
+  { name: "Nahuel Maza",                 initials: "NM", text: "Excelente atención y muy buen servicio. En mi caso me realicé un blanqueamiento y los resultados fueron mucho mejores de lo esperado.", stars: 5 },
+  { name: "Agus Rodriguez",              initials: "AR", text: "Súper recomendable!!! Excelente profesional, dedicada y amable. Me cambió la sonrisa!!", stars: 5 },
+  { name: "Luz Botta",                   initials: "LB", text: "Excelente atención! Me realicé un blanqueamiento y quedé muy conforme con el resultado, super recomendable.", stars: 5 },
+  { name: "Lic. Milagros Casale",        initials: "MC", text: "Excelente! Me hice un blanqueamiento y quedé super contenta con los resultados. Maca es una genia!", stars: 5 },
 ];
 
 function TestimonialsSection() {
