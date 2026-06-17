@@ -207,7 +207,7 @@ function HorariosSection() {
 
             <div className="flex flex-col gap-2.5">
               {[
-                { icon: MapPin, text: "Buenos Aires, Argentina" },
+                { icon: MapPin, text: "Av. Rivadavia 1561, Congreso" },
                 { icon: Phone,  text: "+54 9 11 0000-0000", href: "tel:+5491100000000" },
                 { icon: Clock,  text: "Turnos online 24 hs" },
               ].map(({ icon: Icon, text, href }) => (

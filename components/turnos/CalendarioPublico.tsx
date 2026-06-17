@@ -7,9 +7,8 @@ import { agendarTurno } from "@/app/turnos/actions";
 /* ─── Configuración de la agenda ───────────────────────────────── */
 
 const HORARIOS = [
-  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "12:00", "14:00", "14:30", "15:00", "15:30", "16:00",
-  "16:30", "17:00", "17:30",
+  "09:00", "10:00", "11:00", "12:00",
+  "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
 
 const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
@@ -102,11 +101,39 @@ function FormularioTurno({
           Tu solicitud fue registrada para el{" "}
           <span className="font-semibold text-sima-dark">{fechaLegible}</span> a las{" "}
           <span className="font-semibold text-sima-dark">{hora}hs</span>.
-          Te confirmaremos a la brevedad.
         </p>
+
+        {/* Datos de seña */}
+        <div className="w-full max-w-sm bg-sima-dark rounded-2xl p-5 flex flex-col gap-3 text-left">
+          <div>
+            <p className="text-white/40 text-[11px] font-bold uppercase tracking-widest mb-0.5">Seña para confirmar</p>
+            <p className="text-white font-black text-2xl">$15.000</p>
+            <p className="text-white/50 text-xs mt-0.5">Se descuenta del tratamiento que realices</p>
+          </div>
+          <div className="border-t border-white/10 pt-3 grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Alias</p>
+              <p className="text-white font-bold text-sm mt-0.5 select-all">SIMA.ODONTOLOGIA</p>
+            </div>
+            <div>
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Banco</p>
+              <p className="text-white font-bold text-sm mt-0.5">Cuenta DNI</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">CBU</p>
+              <p className="text-white font-bold text-sm mt-0.5 select-all tracking-wider">0140371603701352779574</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Titular</p>
+              <p className="text-white font-bold text-sm mt-0.5">Macarena Sirimarco</p>
+            </div>
+          </div>
+          <p className="text-sima-accent text-xs font-bold">¡No olvides enviar el comprobante por WhatsApp!</p>
+        </div>
+
         <button
           onClick={onCancel}
-          className="mt-2 px-6 py-2 rounded-lg bg-sima-gray text-sima-dark font-semibold hover:bg-slate-200 transition-colors"
+          className="px-6 py-2 rounded-lg bg-sima-gray text-sima-dark font-semibold hover:bg-slate-200 transition-colors"
         >
           Volver al calendario
         </button>
@@ -211,7 +238,15 @@ function FormularioTurno({
         </select>
       </div>
 
-      <div className="flex gap-3 pt-2">
+      {/* Aviso seña */}
+      <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col gap-1">
+        <p className="text-sm font-bold text-amber-800">Reserva con seña · $15.000</p>
+        <p className="text-xs text-amber-700 leading-relaxed">
+          Para confirmar el turno se solicita una seña de <strong>$15.000</strong>. Este monto <strong>no es el costo de una consulta odontológica</strong> — es únicamente una reserva de horario y se descuenta del tratamiento que realices.
+        </p>
+      </div>
+
+      <div className="flex gap-3">
         <button
           type="button"
           onClick={onCancel}

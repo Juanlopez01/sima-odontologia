@@ -2,9 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, X, Clock, Tag } from "lucide-react";
+import { ArrowRight, X, Clock, CreditCard, Banknote, MessageCircle } from "lucide-react";
 
-const SERVICIOS = [
+type Precios = { debito: string; efectivo: string };
+
+type Servicio = {
+  id: string;
+  num: string;
+  titulo: string;
+  sub: string;
+  descripcion: string;
+  sesiones: string;
+  precios?: Precios;
+  whatsapp?: true;
+};
+
+const SERVICIOS: Servicio[] = [
   {
     id: "coronas",
     num: "01",
@@ -13,7 +26,7 @@ const SERVICIOS = [
     descripcion:
       "Restauración completa de la pieza dental con materiales de alta estética. Devuelve forma, función y una apariencia totalmente natural.",
     sesiones: "2 – 3 sesiones",
-    precio: "A consultar",
+    whatsapp: true,
   },
   {
     id: "caries",
@@ -23,7 +36,7 @@ const SERVICIOS = [
     descripcion:
       "Eliminación de caries y reconstrucción con resinas compuestas de última generación. Resultado imperceptible y duradero.",
     sesiones: "1 sesión",
-    precio: "A consultar",
+    whatsapp: true,
   },
   {
     id: "poste",
@@ -33,17 +46,17 @@ const SERVICIOS = [
     descripcion:
       "Varilla de fibra de vidrio que sostiene y refuerza dientes con pérdida de estructura. Más estética que el metal, menos invasiva y igual de resistente.",
     sesiones: "1 – 2 sesiones",
-    precio: "A consultar",
+    whatsapp: true,
   },
   {
     id: "blanqueamiento",
     num: "04",
     titulo: "Blanqueamiento",
-    sub: "Tecnología LED",
+    sub: "Luz halógena · 2 sesiones",
     descripcion:
-      "Blanqueamiento profesional con luz LED de alta potencia. Resultados visibles en una sola sesión, sin sensibilidad.",
-    sesiones: "1 sesión · 24 hs",
-    precio: "A consultar",
+      "1ª sesión: evaluación de encías, limpieza dental y aplicación de gel blanqueador con luz halógena. 2ª sesión (una semana después): se refuerza el tratamiento para un tono más uniforme. Incluye kit de cuidado.",
+    sesiones: "2 sesiones",
+    precios: { debito: "$252.600", efectivo: "$220.000" },
   },
   {
     id: "tratcon",
@@ -53,17 +66,17 @@ const SERVICIOS = [
     descripcion:
       "Elimina la infección interior del diente y preserva la pieza natural. Con anestesia moderna es completamente indoloro.",
     sesiones: "1 – 2 sesiones",
-    precio: "A consultar",
+    whatsapp: true,
   },
   {
     id: "bruxismo",
     num: "06",
     titulo: "Placa de bruxismo",
-    sub: "Protección nocturna",
+    sub: "Descanso nocturno",
     descripcion:
-      "Placa personalizada que protege tus dientes del desgaste, alivia la tensión mandibular y mejora la calidad del sueño.",
+      "1ª visita: evaluamos tu caso y hacemos la impresión. 2ª visita (5 a 7 días después): prueba en boca para verificar ajuste y confort, ultimamos detalles y entregamos.",
     sesiones: "2 visitas · 7 días",
-    precio: "A consultar",
+    precios: { debito: "$218.600", efectivo: "$190.000" },
   },
   {
     id: "implantes",
@@ -73,9 +86,11 @@ const SERVICIOS = [
     descripcion:
       "Reemplazo permanente del diente perdido con implante de titanio. Función y estética idénticas al diente natural.",
     sesiones: "Varias etapas",
-    precio: "A consultar",
+    whatsapp: true,
   },
 ];
+
+const WA_NUMBER = "5491100000000"; // Reemplazar con el número real
 
 export default function ServiciosGrid() {
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -120,7 +135,7 @@ export default function ServiciosGrid() {
       {/* Panel de detalle */}
       {active && (
         <div className="bg-white border border-sima-gray rounded-2xl overflow-hidden shadow-sm">
-          {/* Header del panel */}
+          {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-sima-gray">
             <div className="flex items-center gap-3">
               <span className="text-xs font-bold text-sima-mid tracking-widest">{active.num}</span>
@@ -132,6 +147,7 @@ export default function ServiciosGrid() {
             <button
               onClick={() => setActiveId(null)}
               className="w-7 h-7 rounded-lg bg-sima-light flex items-center justify-center text-sima-mid hover:bg-sima-dark hover:text-white transition-colors"
+              aria-label="Cerrar"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -140,30 +156,57 @@ export default function ServiciosGrid() {
           <div className="px-5 py-4 flex flex-col gap-4">
             <p className="text-slate-600 text-sm leading-relaxed">{active.descripcion}</p>
 
-            <div className="flex gap-3">
-              <div className="flex items-center gap-2 bg-sima-light rounded-xl px-4 py-2.5 flex-1">
-                <Clock className="w-3.5 h-3.5 text-sima-mid shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-sima-mid uppercase tracking-wide">Sesiones</p>
-                  <p className="text-sm font-bold text-sima-dark">{active.sesiones}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-sima-light rounded-xl px-4 py-2.5 flex-1">
-                <Tag className="w-3.5 h-3.5 text-sima-mid shrink-0" />
-                <div>
-                  <p className="text-[10px] font-bold text-sima-mid uppercase tracking-wide">Precio</p>
-                  <p className="text-sm font-bold text-sima-dark">{active.precio}</p>
-                </div>
+            {/* Sesiones */}
+            <div className="flex items-center gap-2 bg-sima-light rounded-xl px-4 py-2.5">
+              <Clock className="w-3.5 h-3.5 text-sima-mid shrink-0" />
+              <div>
+                <p className="text-[10px] font-bold text-sima-mid uppercase tracking-wide">Sesiones</p>
+                <p className="text-sm font-bold text-sima-dark">{active.sesiones}</p>
               </div>
             </div>
 
-            <Link
-              href="/turnos"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-sima-dark text-white font-bold text-sm hover:bg-sima-accent transition-colors"
-            >
-              Reservar turno para {active.titulo.toLowerCase()}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Precios reales */}
+            {active.precios && (
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-sima-light rounded-xl px-4 py-2.5 flex flex-col gap-0.5">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <CreditCard className="w-3 h-3 text-sima-mid" />
+                    <p className="text-[10px] font-bold text-sima-mid uppercase tracking-wide">Débito / Crédito</p>
+                  </div>
+                  <p className="text-base font-black text-sima-dark">{active.precios.debito}</p>
+                  <p className="text-[10px] text-sima-mid">hasta 3 cuotas sin interés</p>
+                </div>
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2.5 flex flex-col gap-0.5">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Banknote className="w-3 h-3 text-emerald-600" />
+                    <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wide">Efectivo / Transf.</p>
+                  </div>
+                  <p className="text-base font-black text-emerald-700">{active.precios.efectivo}</p>
+                  <p className="text-[10px] text-emerald-600 font-semibold">15% OFF</p>
+                </div>
+              </div>
+            )}
+
+            {/* CTA */}
+            {active.whatsapp ? (
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola! Me gustaría consultar el precio de ${active.titulo}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#1ebe5c] transition-colors"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Consultar precio por WhatsApp
+              </a>
+            ) : (
+              <Link
+                href="/turnos"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-sima-dark text-white font-bold text-sm hover:bg-sima-accent transition-colors"
+              >
+                Reservar turno para {active.titulo.toLowerCase()}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
         </div>
       )}
