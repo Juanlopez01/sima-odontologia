@@ -57,89 +57,120 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="min-h-[100svh] pt-14 bg-white flex flex-col">
-      <div className="max-w-5xl mx-auto px-5 flex-1 flex flex-col justify-center py-10 gap-6">
+    <section className="min-h-[100svh] pt-14 bg-white flex flex-col overflow-hidden">
+      <div className="max-w-5xl mx-auto px-5 flex-1 grid lg:grid-cols-2 gap-10 items-center py-10">
 
-        {/* Badge desktop */}
-        <span className="hidden sm:inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-sima-light border border-sima-gray text-xs font-bold text-sima-mid tracking-wide uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Primera consulta sin cargo
-        </span>
+        {/* ── Contenido ── */}
+        <div className="flex flex-col gap-6">
 
-        {/* Badge mobile compacto */}
-        <span className="sm:hidden inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-bold text-emerald-700">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          Primera consulta gratis
-        </span>
+          {/* Badge */}
+          <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-sima-light border border-sima-gray text-xs font-bold text-sima-mid tracking-wide uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Primera consulta sin cargo
+          </span>
 
-        {/* Headline */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-sima-dark leading-[1.05] tracking-tight">
-          Cuidamos<br />
-          tu sonrisa<span className="text-sima-accent">.</span>
-        </h1>
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-6xl font-black text-sima-dark leading-[1.05] tracking-tight">
+            Cuidamos<br />
+            tu sonrisa<span className="text-sima-accent">.</span>
+          </h1>
 
-        {/* Subtítulo */}
-        <p className="text-base sm:text-lg text-sima-mid leading-relaxed max-w-md">
-          Estética, implantes y más — con atención personalizada.
-        </p>
+          {/* Subtítulo */}
+          <p className="text-base sm:text-lg text-sima-mid leading-relaxed max-w-md">
+            Estética, implantes y más — con atención personalizada en Congreso, CABA.
+          </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:max-w-lg">
-          <Link
-            href="/turnos"
-            className="group flex items-center justify-between gap-3 px-6 py-4 rounded-2xl bg-sima-dark text-white font-bold text-base hover:bg-sima-accent transition-all duration-200 shadow-lg shadow-sima-dark/15 sm:flex-1"
-          >
-            <span className="flex items-center gap-3">
-              <Calendar className="w-5 h-5" aria-hidden="true" />
-              Reservar turno
-            </span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-          </Link>
+          {/* CTAs */}
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/turnos"
+              className="group flex items-center justify-between gap-3 px-6 py-4 rounded-2xl bg-sima-dark text-white font-bold text-base hover:bg-sima-accent transition-all duration-200 shadow-lg shadow-sima-dark/15 sm:flex-1"
+            >
+              <span className="flex items-center gap-3">
+                <Calendar className="w-5 h-5" aria-hidden="true" />
+                Reservar turno
+              </span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+            </Link>
+            <a
+              href="tel:+5491100000000"
+              className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border-2 border-sima-gray text-sima-dark font-bold text-base hover:border-sima-dark transition-colors duration-200"
+            >
+              <Phone className="w-5 h-5" aria-hidden="true" />
+              Llamar
+            </a>
+          </div>
 
-          <a
-            href="tel:+5491100000000"
-            className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border-2 border-sima-gray text-sima-dark font-bold text-base hover:border-sima-dark transition-colors duration-200"
-          >
-            <Phone className="w-5 h-5" aria-hidden="true" />
-            Llamar
-          </a>
-        </div>
-
-        {/* Trust pills desktop */}
-        <div className="hidden sm:flex flex-wrap gap-2">
-          {["Sin lista de espera", "+200 pacientes", "Turnos online 24 hs"].map((t) => (
-            <span key={t} className="inline-flex items-center gap-1.5 text-xs font-semibold text-sima-mid bg-sima-light border border-sima-gray px-3 py-1.5 rounded-full">
-              <CheckCircle className="w-3 h-3 text-emerald-500" aria-hidden="true" />
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {/* Estrellas desktop */}
-        <div className="hidden sm:flex items-center gap-2">
-          <div className="flex gap-0.5" aria-label="5 estrellas">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+          {/* Trust pills */}
+          <div className="flex flex-wrap gap-2">
+            {["Sin lista de espera", "+200 pacientes", "Turnos online 24 hs"].map((t) => (
+              <span key={t} className="inline-flex items-center gap-1.5 text-xs font-semibold text-sima-mid bg-sima-light border border-sima-gray px-3 py-1.5 rounded-full">
+                <CheckCircle className="w-3 h-3 text-emerald-500" aria-hidden="true" />
+                {t}
+              </span>
             ))}
           </div>
-          <span className="text-sm text-sima-mid font-medium">Más de 200 pacientes satisfechos</span>
+
+          {/* Estrellas */}
+          <div className="flex items-center gap-2">
+            <div className="flex gap-0.5" aria-label="5 estrellas">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+              ))}
+            </div>
+            <span className="text-sm text-sima-mid font-medium">Más de 200 pacientes satisfechos</span>
+          </div>
         </div>
 
-        {/* Stats rápidos mobile */}
-        <div className="sm:hidden flex gap-6">
-          {[
-            { num: "+200",  label: "pacientes"    },
-            { num: "24 hs", label: "turnos online" },
-            { num: "Gratis",label: "1ª consulta"  },
-          ].map(({ num, label }) => (
-            <div key={label} className="flex flex-col">
-              <span className="text-lg font-black text-sima-dark leading-none">{num}</span>
-              <span className="text-[11px] text-sima-mid font-medium mt-0.5">{label}</span>
+        {/* ── Visual ── */}
+        <div className="hidden lg:block relative">
+          {/* Decoración de fondo */}
+          <div className="absolute inset-0 -m-8 rounded-[3rem] bg-sima-light" />
+
+          {/* Foto principal */}
+          <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl shadow-sima-dark/10">
+            <Image
+              src="/sala-de-espera.png"
+              alt="Consultorio SIMA Odontología"
+              fill
+              className="object-cover"
+              sizes="45vw"
+              priority
+            />
+          </div>
+
+          {/* Tarjeta flotante: logo */}
+          <div className="absolute -bottom-4 -left-6 bg-white rounded-2xl shadow-xl border border-sima-gray px-4 py-3">
+            <Image src="/logo.png" alt="SIMA Odontología" width={110} height={40} className="object-contain" />
+          </div>
+
+          {/* Tarjeta flotante: rating */}
+          <div className="absolute top-6 -right-6 bg-sima-dark rounded-2xl shadow-xl px-4 py-3 flex flex-col gap-0.5">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+              ))}
             </div>
-          ))}
+            <p className="text-white font-black text-sm leading-none mt-1">+200</p>
+            <p className="text-white/50 text-[10px]">reseñas positivas</p>
+          </div>
         </div>
 
       </div>
+
+      {/* Foto mobile — tira debajo del contenido */}
+      <div className="lg:hidden relative h-48 mx-5 mb-6 rounded-2xl overflow-hidden">
+        <Image
+          src="/sala-de-espera.png"
+          alt="Consultorio SIMA Odontología"
+          fill
+          className="object-cover object-top"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+      </div>
+
       <div className="h-px bg-gradient-to-r from-transparent via-sima-gray to-transparent" />
     </section>
   );
