@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, CreditCard, Banknote, MessageCircle, ArrowRight } from "lucide-react";
+import { Clock, CreditCard, Banknote, MessageCircle, ArrowRight, Images } from "lucide-react";
 
 type Precios = { debito: string; efectivo: string };
 type Fotos   = { antes: string; despues: string; labelDespues?: string };
@@ -14,6 +14,7 @@ type Servicio = {
   precios?: Precios;
   fotos?: Fotos;
   whatsapp?: true;
+  verFotos?: true;
 };
 
 const WA_NUMBER = "5491100000000";
@@ -21,30 +22,15 @@ const WA_NUMBER = "5491100000000";
 const SERVICIOS: Servicio[] = [
   {
     num: "01",
-    titulo: "Coronas",
-    sub: "Porcelana · Zirconia",
-    descripcion: "Restauración completa de la pieza dental con materiales de alta estética. Devuelve forma, función y una apariencia totalmente natural.",
-    sesiones: "2 – 3 sesiones",
+    titulo: "Limpieza dental",
+    sub: "Profilaxis",
+    descripcion: "Eliminación profesional de sarro y placa bacteriana. Esencial para mantener encías y dientes sanos. Se realiza con ultrasonido y pulido final.",
+    sesiones: "1 sesión",
     whatsapp: true,
+    verFotos: true,
   },
   {
     num: "02",
-    titulo: "Caries",
-    sub: "Restauraciones",
-    descripcion: "Eliminación de caries y reconstrucción con resinas compuestas de última generación. Resultado imperceptible y duradero.",
-    sesiones: "1 sesión",
-    whatsapp: true,
-  },
-  {
-    num: "03",
-    titulo: "Poste de fibra",
-    sub: "Poste · Perno",
-    descripcion: "Varilla de fibra de vidrio que sostiene y refuerza dientes con pérdida de estructura. Más estética que el metal, menos invasiva y igual de resistente.",
-    sesiones: "1 – 2 sesiones",
-    whatsapp: true,
-  },
-  {
-    num: "04",
     titulo: "Blanqueamiento",
     sub: "Luz halógena · 2 sesiones",
     descripcion: "1ª sesión: evaluación de encías, limpieza dental y aplicación de gel blanqueador con luz halógena. 2ª sesión (una semana después): se refuerza el tratamiento para un tono más uniforme. Incluye kit de cuidado.",
@@ -53,15 +39,7 @@ const SERVICIOS: Servicio[] = [
     fotos: { antes: "/blanqueamiento-antes.jpeg", despues: "/blanqueamiento-despues.png" },
   },
   {
-    num: "05",
-    titulo: "Conductos",
-    sub: "Endodoncia",
-    descripcion: "Elimina la infección interior del diente y preserva la pieza natural. Con anestesia moderna es completamente indoloro.",
-    sesiones: "1 – 2 sesiones",
-    whatsapp: true,
-  },
-  {
-    num: "06",
+    num: "03",
     titulo: "Placa de bruxismo",
     sub: "Descanso nocturno",
     descripcion: "1ª visita: evaluamos tu caso y hacemos la impresión. 2ª visita (5 a 7 días después): prueba en boca para verificar ajuste y confort, ultimamos detalles y entregamos.",
@@ -70,11 +48,62 @@ const SERVICIOS: Servicio[] = [
     fotos: { antes: "/bruxismo-antes.jpg", despues: "/bruxismo-despues.jpg", labelDespues: "Con placa" },
   },
   {
+    num: "04",
+    titulo: "Coronas",
+    sub: "Porcelana · Zirconia",
+    descripcion: "Restauración completa de la pieza dental con materiales de alta estética. Devuelve forma, función y una apariencia totalmente natural.",
+    sesiones: "2 – 3 sesiones",
+    whatsapp: true,
+    verFotos: true,
+  },
+  {
+    num: "05",
+    titulo: "Caries",
+    sub: "Restauraciones",
+    descripcion: "Eliminación de caries y reconstrucción con resinas compuestas de última generación. Resultado imperceptible y duradero.",
+    sesiones: "1 sesión",
+    whatsapp: true,
+    verFotos: true,
+  },
+  {
+    num: "06",
+    titulo: "Poste de fibra",
+    sub: "Poste · Perno",
+    descripcion: "Varilla de fibra de vidrio que sostiene y refuerza dientes con pérdida de estructura. Más estética que el metal, menos invasiva y igual de resistente.",
+    sesiones: "1 – 2 sesiones",
+    whatsapp: true,
+  },
+  {
     num: "07",
+    titulo: "Conductos",
+    sub: "Endodoncia",
+    descripcion: "Elimina la infección interior del diente y preserva la pieza natural. Con anestesia moderna es completamente indoloro. Contamos con equipo de rayos X en el consultorio para diagnóstico en el momento. Especialista presente el 3er jueves de cada mes, de 14 a 17 hs.",
+    sesiones: "1 – 2 sesiones",
+    whatsapp: true,
+  },
+  {
+    num: "08",
     titulo: "Implantes",
     sub: "Titanio · Alta durabilidad",
     descripcion: "Reemplazo permanente del diente perdido con implante de titanio. Función y estética idénticas al diente natural.",
     sesiones: "Varias etapas",
+    whatsapp: true,
+  },
+  {
+    num: "09",
+    titulo: "Prótesis removible",
+    sub: "Dentadura · Acrílico",
+    descripcion: "Rehabilitación oral con prótesis totales o parciales removibles. Recuperá tu función masticatoria y estética con comodidad y un ajuste personalizado.",
+    sesiones: "Varias etapas",
+    whatsapp: true,
+    verFotos: true,
+  },
+  {
+    num: "10",
+    titulo: "Exodoncias",
+    sub: "Extracciones",
+    descripcion: "Extracción dental simple o compleja realizada con anestesia local. El procedimiento es cómodo, rápido y sin dolor.",
+    sesiones: "1 sesión",
     whatsapp: true,
   },
 ];
@@ -103,7 +132,8 @@ function PrecioBlock({ precios }: { precios: Precios }) {
 }
 
 function ServicioCard({ s }: { s: Servicio }) {
-  const waMsg = encodeURIComponent(`Hola! Me gustaría consultar el precio de ${s.titulo}.`);
+  const waMsgPrecio = encodeURIComponent(`Hola! Me gustaría consultar el precio de ${s.titulo}.`);
+  const waMsgFotos  = encodeURIComponent(`Hola! Me gustaría ver fotos del tratamiento de ${s.titulo}.`);
 
   return (
     <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full">
@@ -148,13 +178,13 @@ function ServicioCard({ s }: { s: Servicio }) {
         {/* Descripción */}
         <p className="text-white/60 text-sm leading-relaxed">{s.descripcion}</p>
 
-        {/* Precios o WA */}
-        <div className="mt-auto flex flex-col gap-3">
+        {/* Precios / botones */}
+        <div className="mt-auto flex flex-col gap-2">
           {s.precios && <PrecioBlock precios={s.precios} />}
 
-          {s.whatsapp ? (
+          {s.whatsapp && (
             <a
-              href={`https://wa.me/${WA_NUMBER}?text=${waMsg}`}
+              href={`https://wa.me/${WA_NUMBER}?text=${waMsgPrecio}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#1ebe5c] transition-colors"
@@ -162,7 +192,21 @@ function ServicioCard({ s }: { s: Servicio }) {
               <MessageCircle className="w-4 h-4" />
               Consultar precio por WhatsApp
             </a>
-          ) : (
+          )}
+
+          {s.verFotos && (
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${waMsgFotos}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/15 text-white/60 font-semibold text-sm hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <Images className="w-4 h-4" />
+              Ver fotos
+            </a>
+          )}
+
+          {!s.whatsapp && s.precios && (
             <Link
               href="/turnos"
               className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white text-sima-dark font-bold text-sm hover:bg-sima-accent hover:text-white transition-colors"
