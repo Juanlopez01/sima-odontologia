@@ -24,8 +24,8 @@ function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-sima-gray">
       <div className="max-w-5xl mx-auto px-5 h-14 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
+        {/* Logo desktop */}
+        <Link href="/" className="hidden md:flex items-center">
           <Image src="/logo.png" alt="SIMA Odontología" height={36} width={130} className="object-contain" priority />
         </Link>
 
