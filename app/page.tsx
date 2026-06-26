@@ -94,7 +94,7 @@ function Hero() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </Link>
             <a
-              href="tel:+5491100000000"
+              href="tel:+5491140600936"
               className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border-2 border-sima-gray text-sima-dark font-bold text-base hover:border-sima-dark transition-colors duration-200"
             >
               <Phone className="w-5 h-5" aria-hidden="true" />
@@ -228,7 +228,7 @@ function HorariosSection() {
             <div className="flex flex-col gap-2.5">
               {[
                 { icon: MapPin, text: "Av. Rivadavia 1561, Congreso" },
-                { icon: Phone,  text: "+54 9 11 0000-0000", href: "tel:+5491100000000" },
+                { icon: Phone,  text: "+54 9 11 4060-0936", href: "tel:+5491140600936" },
                 { icon: Clock,  text: "Turnos online 24 hs" },
               ].map(({ icon: Icon, text, href }) => (
                 <div key={text} className="flex items-center gap-3 text-sima-mid text-sm">
@@ -344,8 +344,8 @@ function CtaSection() {
         </Link>
         <p className="text-white/30 text-sm">
           También podés llamarnos al{" "}
-          <a href="tel:+5491100000000" className="text-white/50 hover:text-white transition-colors underline underline-offset-2">
-            +54 9 11 0000-0000
+          <a href="tel:+5491140600936" className="text-white/50 hover:text-white transition-colors underline underline-offset-2">
+            +54 9 11 4060-0936
           </a>
         </p>
       </div>

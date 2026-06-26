@@ -1,6 +1,6 @@
 "use client";
 
-const WHATSAPP_NUMBER = "5491100000000"; // Reemplazar con el número real
+const WHATSAPP_NUMBER = "5491140600936";
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Hola! Me gustaría consultar sobre la primera consulta sin cargo."
 );

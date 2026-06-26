@@ -18,7 +18,7 @@ type Servicio = {
   verFotos?: true;
 };
 
-const WA_NUMBER = "5491100000000";
+const WA_NUMBER = "5491140600936";
 
 const SERVICIOS: Servicio[] = [
   {
