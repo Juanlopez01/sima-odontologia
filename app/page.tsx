@@ -255,11 +255,11 @@ function HorariosSection() {
           {/* Fotos consultorio — solo mobile */}
           <div className="grid grid-cols-2 gap-2 lg:hidden">
             {[
-              { src: "/consul1.jpeg", alt: "Sala de espera SIMA Odontología" },
-              { src: "/consul3.jpeg", alt: "Interior del consultorio SIMA" },
-            ].map(({ src, alt }) => (
+              { src: "/fachada.png",  alt: "Fachada SIMA Odontología", pos: "object-center" },
+              { src: "/consul2.jpeg", alt: "Interior del consultorio SIMA", pos: "object-center" },
+            ].map(({ src, alt, pos }) => (
               <div key={src} className="relative rounded-2xl overflow-hidden aspect-[3/2]">
-                <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
+                <Image src={src} alt={alt} fill className={`object-cover ${pos}`} sizes="45vw" />
               </div>
             ))}
           </div>
@@ -303,12 +303,12 @@ function HorariosSection() {
         {/* Fotos consultorio — fila completa (desktop) */}
         <div className="hidden lg:grid grid-cols-3 gap-3 mt-8">
           {[
-            { src: "/consul1.jpeg", alt: "Sala de espera SIMA Odontología" },
-            { src: "/consul3.jpeg", alt: "Interior del consultorio SIMA" },
-            { src: "/consul5.png",  alt: "SIMA Odontología" },
+            { src: "/fachada.png",  alt: "Fachada SIMA Odontología" },
+            { src: "/consul2.jpeg", alt: "Interior del consultorio SIMA" },
+            { src: "/consul4.jpeg", alt: "Consultorio SIMA Odontología" },
           ].map(({ src, alt }) => (
             <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <Image src={src} alt={alt} fill className="object-cover" sizes="33vw" />
+              <Image src={src} alt={alt} fill className="object-cover object-center" sizes="33vw" />
             </div>
           ))}
         </div>
