@@ -153,7 +153,7 @@ function Hero() {
       {/* Foto mobile — tira debajo del contenido */}
       <div className="lg:hidden relative h-48 mx-5 mb-6 rounded-2xl overflow-hidden">
         <Image
-          src="/sala-de-espera.png"
+          src="/consul1.jpeg"
           alt="Consultorio SIMA Odontología"
           fill
           className="object-cover object-top"
@@ -255,8 +255,8 @@ function HorariosSection() {
           {/* Fotos consultorio — solo mobile */}
           <div className="grid grid-cols-2 gap-2 lg:hidden">
             {[
-              { src: "/fachada.png",        alt: "Fachada del consultorio SIMA" },
-              { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
+              { src: "/consul1.jpeg", alt: "Sala de espera SIMA Odontología" },
+              { src: "/consul3.jpeg", alt: "Interior del consultorio SIMA" },
             ].map(({ src, alt }) => (
               <div key={src} className="relative rounded-2xl overflow-hidden aspect-[3/2]">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="45vw" />
@@ -283,6 +283,14 @@ function HorariosSection() {
                   </div>
                 </div>
               ))}
+              {/* Endodontista — 3er jueves */}
+              <div className="flex items-center justify-between px-5 py-3 bg-sima-accent/5">
+                <div>
+                  <span className="text-sm font-bold text-sima-accent">Endodoncia</span>
+                  <p className="text-[11px] text-sima-mid">3er jueves del mes</p>
+                </div>
+                <span className="text-sm font-medium text-sima-accent">14:00 – 17:00</span>
+              </div>
             </div>
             <div className="px-5 py-3 border-t border-sima-gray bg-emerald-50 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
@@ -295,9 +303,9 @@ function HorariosSection() {
         {/* Fotos consultorio — fila completa (desktop) */}
         <div className="hidden lg:grid grid-cols-3 gap-3 mt-8">
           {[
-            { src: "/fachada.png",        alt: "Fachada del consultorio SIMA" },
-            { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
-            { src: "/sala.jpg",           alt: "Interior del consultorio SIMA" },
+            { src: "/consul1.jpeg", alt: "Sala de espera SIMA Odontología" },
+            { src: "/consul3.jpeg", alt: "Interior del consultorio SIMA" },
+            { src: "/consul5.png",  alt: "SIMA Odontología" },
           ].map(({ src, alt }) => (
             <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
               <Image src={src} alt={alt} fill className="object-cover" sizes="33vw" />

@@ -13,6 +13,7 @@ type Servicio = {
   sesiones: string;
   precios?: Precios;
   fotos?: Fotos;
+  galeria?: string[];
   whatsapp?: true;
   verFotos?: true;
 };
@@ -27,7 +28,7 @@ const SERVICIOS: Servicio[] = [
     descripcion: "Eliminación profesional de sarro y placa bacteriana. Esencial para mantener encías y dientes sanos. Se realiza con ultrasonido y pulido final.",
     sesiones: "1 sesión",
     whatsapp: true,
-    verFotos: true,
+    fotos: { antes: "/limpieza-antes.jpeg", despues: "/limpieza-despues.jpeg" },
   },
   {
     num: "02",
@@ -36,7 +37,7 @@ const SERVICIOS: Servicio[] = [
     descripcion: "1ª sesión: evaluación de encías, limpieza dental y aplicación de gel blanqueador con luz halógena. 2ª sesión (una semana después): se refuerza el tratamiento para un tono más uniforme. Incluye kit de cuidado.",
     sesiones: "2 sesiones",
     precios: { debito: "$252.600", efectivo: "$220.000" },
-    fotos: { antes: "/blanqueamiento-antes.jpeg", despues: "/blanqueamiento-despues.png" },
+    fotos: { antes: "/blanqueamiento-antes.jpg", despues: "/blanqueamiento-despues.jpg" },
   },
   {
     num: "03",
@@ -54,7 +55,7 @@ const SERVICIOS: Servicio[] = [
     descripcion: "Restauración completa en porcelana o zirconia — sin acrílico. Los mejores materiales para un resultado natural, duradero y estéticamente impecable.",
     sesiones: "2 – 3 sesiones",
     whatsapp: true,
-    verFotos: true,
+    fotos: { antes: "/zirconio-antes.jpg.jpeg", despues: "/zirconio-despues.jpeg", labelDespues: "Con corona" },
   },
   {
     num: "05",
@@ -96,7 +97,7 @@ const SERVICIOS: Servicio[] = [
     descripcion: "Rehabilitación oral con prótesis totales o parciales removibles. Recuperá tu función masticatoria y estética con comodidad y un ajuste personalizado.",
     sesiones: "Varias etapas",
     whatsapp: true,
-    verFotos: true,
+    galeria: ["/protesis-removible1..jpg.jpeg", "/protesis-removible2.jpg.jpeg", "/protesis-removible3.jpg.jpeg", "/protesis-removible4.jpg.jpeg"],
   },
   {
     num: "10",
@@ -155,6 +156,23 @@ function ServicioCard({ s }: { s: Servicio }) {
               `}>
                 {key === "antes" ? "Antes" : (s.fotos!.labelDespues ?? "Después")}
               </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Galería de múltiples fotos (2x2) */}
+      {s.galeria && (
+        <div className="grid grid-cols-2">
+          {s.galeria.map((src, i) => (
+            <div key={src} className="relative aspect-[4/3]">
+              <Image
+                src={src}
+                alt={`${s.titulo} — foto ${i + 1}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 50vw, 300px"
+              />
             </div>
           ))}
         </div>

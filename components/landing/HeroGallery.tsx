@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const FOTOS = [
-  { src: "/sala-de-espera.png", alt: "Sala de espera SIMA Odontología" },
-  { src: "/sala.jpg",           alt: "Consultorio SIMA Odontología" },
-  { src: "/entrada.jpg",        alt: "Interior del consultorio" },
-  { src: "/fachada.png",        alt: "Fachada SIMA Odontología" },
+  { src: "/consul1.jpeg", alt: "Sala de espera SIMA Odontología" },
+  { src: "/consul2.jpeg", alt: "Consultorio SIMA Odontología" },
+  { src: "/consul3.jpeg", alt: "Interior del consultorio" },
+  { src: "/consul4.jpeg", alt: "SIMA Odontología" },
+  { src: "/consul5.png",  alt: "Consultorio SIMA" },
 ];
 
 export default function HeroGallery() {
