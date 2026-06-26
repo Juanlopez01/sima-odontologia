@@ -11,6 +11,15 @@ const HORARIOS = [
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
 
+const HORARIOS_ENDODONCIA = ["14:00", "15:00", "16:00", "17:00"];
+
+function isTercerJueves(date: Date): boolean {
+  if (date.getDay() !== 4) return false;
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  const firstThursday = 1 + (4 - firstDay + 7) % 7;
+  return date.getDate() === firstThursday + 14;
+}
+
 const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const MESES = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -47,10 +56,12 @@ interface Props {
 function FormularioTurno({
   fecha,
   hora,
+  esEndodoncia,
   onCancel,
 }: {
   fecha: Date;
   hora: string;
+  esEndodoncia: boolean;
   onCancel: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -220,22 +231,31 @@ function FormularioTurno({
         <label htmlFor="motivo" className="text-sm font-semibold text-sima-dark">
           Motivo de la consulta
         </label>
-        <select
-          id="motivo"
-          name="motivo"
-          defaultValue=""
-          className="px-3 py-2.5 rounded-lg border border-sima-gray bg-white text-sima-dark focus:outline-none focus:ring-2 focus:ring-sima-accent/40 focus:border-sima-accent transition-colors"
-        >
-          <option value="" disabled>Seleccioná un motivo...</option>
-          <option value="Primera consulta">Primera consulta (sin cargo)</option>
-          <option value="Estética dental">Estética dental</option>
-          <option value="Implantología">Implantología</option>
-          <option value="Restauración">Restauración</option>
-          <option value="Blanqueamiento">Blanqueamiento</option>
-          <option value="Control">Control</option>
-          <option value="Urgencia">Urgencia</option>
-          <option value="Otro">Otro</option>
-        </select>
+        {esEndodoncia ? (
+          <>
+            <input type="hidden" name="motivo" value="Endodoncia" />
+            <div className="px-3 py-2.5 rounded-lg border border-blue-200 bg-blue-50 text-blue-800 font-semibold text-sm">
+              Endodoncia (especialista)
+            </div>
+          </>
+        ) : (
+          <select
+            id="motivo"
+            name="motivo"
+            defaultValue=""
+            className="px-3 py-2.5 rounded-lg border border-sima-gray bg-white text-sima-dark focus:outline-none focus:ring-2 focus:ring-sima-accent/40 focus:border-sima-accent transition-colors"
+          >
+            <option value="" disabled>Seleccioná un motivo...</option>
+            <option value="Primera consulta">Primera consulta (sin cargo)</option>
+            <option value="Estética dental">Estética dental</option>
+            <option value="Implantología">Implantología</option>
+            <option value="Restauración">Restauración</option>
+            <option value="Blanqueamiento">Blanqueamiento</option>
+            <option value="Control">Control</option>
+            <option value="Urgencia">Urgencia</option>
+            <option value="Otro">Otro</option>
+          </select>
+        )}
       </div>
 
       {/* Aviso seña */}
@@ -278,14 +298,24 @@ function FormularioTurno({
 function SelectorHorarios({
   fecha,
   ocupados,
+  horarios,
+  esEndodoncia,
   onSelect,
 }: {
   fecha: Date;
   ocupados: string[];
+  horarios: string[];
+  esEndodoncia: boolean;
   onSelect: (hora: string) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
+      {esEndodoncia && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">
+          <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
+          <p className="text-xs font-semibold text-blue-700">Día del especialista en Endodoncia · 14 a 17 hs</p>
+        </div>
+      )}
       <h3 className="font-semibold text-sima-dark text-sm">
         Horarios disponibles —{" "}
         <span className="capitalize">
@@ -293,7 +323,7 @@ function SelectorHorarios({
         </span>
       </h3>
       <div className="grid grid-cols-3 gap-2.5">
-        {HORARIOS.map((hora) => {
+        {horarios.map((hora) => {
           const ocupado = ocupados.includes(hora);
           return (
             <button
@@ -379,6 +409,9 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
     ? (turnosOcupados[toISO(selectedDate)] ?? [])
     : [];
 
+  const esEndodonciaHoy = selectedDate ? isTercerJueves(selectedDate) : false;
+  const horariosHoy = esEndodonciaHoy ? HORARIOS_ENDODONCIA : HORARIOS;
+
   // Celda vacía inicial para alinear la grilla
   const blanks = Array.from({ length: firstDay });
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
@@ -433,15 +466,17 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
             const isToday = isSameDay(date, today);
             const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
             const isoDate = toISO(date);
+            const esTercerJueves = isTercerJueves(date);
+            const horariosDelDia = esTercerJueves ? HORARIOS_ENDODONCIA : HORARIOS;
             const hasSlotsTaken = !disabled && (turnosOcupados[isoDate]?.length ?? 0) > 0;
-            const fullyBooked = !disabled && (turnosOcupados[isoDate]?.length ?? 0) >= HORARIOS.length;
+            const fullyBooked = !disabled && (turnosOcupados[isoDate]?.length ?? 0) >= horariosDelDia.length;
 
             return (
               <button
                 key={day}
                 onClick={() => !disabled && !fullyBooked && handleSelectDay(day)}
                 disabled={disabled || fullyBooked}
-                aria-label={`${day} de ${MESES[viewMonth]}`}
+                aria-label={`${day} de ${MESES[viewMonth]}${esTercerJueves ? " — Endodoncia" : ""}`}
                 aria-pressed={isSelected}
                 className={`
                   relative mx-auto w-11 h-11 rounded-xl text-base font-semibold
@@ -450,9 +485,11 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
                     ? "text-sima-gray cursor-not-allowed"
                     : isSelected
                       ? "bg-sima-dark text-white shadow-md scale-105"
-                      : isToday
-                        ? "ring-2 ring-sima-accent text-sima-accent font-bold hover:bg-sima-accent hover:text-white"
-                        : "text-sima-dark hover:bg-sima-accent hover:text-white"
+                      : esTercerJueves
+                        ? "ring-2 ring-blue-400 text-blue-700 font-bold hover:bg-blue-500 hover:text-white hover:ring-0"
+                        : isToday
+                          ? "ring-2 ring-sima-accent text-sima-accent font-bold hover:bg-sima-accent hover:text-white"
+                          : "text-sima-dark hover:bg-sima-accent hover:text-white"
                   }
                 `}
               >
@@ -466,7 +503,7 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
         </div>
 
         {/* Leyenda */}
-        <div className="flex items-center gap-4 mt-5 pt-4 border-t border-sima-gray text-xs text-slate-400">
+        <div className="flex flex-wrap items-center gap-4 mt-5 pt-4 border-t border-sima-gray text-xs text-slate-400">
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-sima-accent inline-block" />
             Disponible
@@ -474,6 +511,10 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
             Parcialmente ocupado
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+            Endodoncia
           </span>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-slate-200 inline-block" />
@@ -498,6 +539,8 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
           <SelectorHorarios
             fecha={selectedDate}
             ocupados={ocupadosHoy}
+            horarios={horariosHoy}
+            esEndodoncia={esEndodonciaHoy}
             onSelect={handleSelectHora}
           />
         )}
@@ -506,6 +549,7 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
           <FormularioTurno
             fecha={selectedDate}
             hora={selectedHora}
+            esEndodoncia={esEndodonciaHoy}
             onCancel={handleCancel}
           />
         )}

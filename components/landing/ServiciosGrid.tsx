@@ -64,7 +64,6 @@ const SERVICIOS: Servicio[] = [
     descripcion: "Eliminación de caries y reconstrucción con resinas compuestas de última generación. Resultado imperceptible y duradero.",
     sesiones: "1 sesión",
     whatsapp: true,
-    verFotos: true,
   },
   {
     num: "06",
