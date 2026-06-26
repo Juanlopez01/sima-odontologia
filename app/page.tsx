@@ -4,6 +4,7 @@ import { Calendar, Phone, MapPin, Clock, Star, ArrowRight, CheckCircle } from "l
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ServiciosGrid from "@/components/landing/ServiciosGrid";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
+import HeroGallery from "@/components/landing/HeroGallery";
 
 /* ─── Ícono diente ───────────────────────────────────────────────── */
 
@@ -127,17 +128,8 @@ function Hero() {
           {/* Decoración de fondo */}
           <div className="absolute inset-0 -m-8 rounded-[3rem] bg-sima-light" />
 
-          {/* Foto principal */}
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl shadow-sima-dark/10">
-            <Image
-              src="/sala-de-espera.png"
-              alt="Consultorio SIMA Odontología"
-              fill
-              className="object-cover"
-              sizes="45vw"
-              priority
-            />
-          </div>
+          {/* Galería rotativa */}
+          <HeroGallery />
 
           {/* Tarjeta flotante: logo */}
           <div className="absolute -bottom-4 -left-6 bg-white rounded-2xl shadow-xl border border-sima-gray px-4 py-3">
