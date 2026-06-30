@@ -241,8 +241,8 @@ export default function ServiciosGrid() {
         {featured.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
 
-      {/* Sin fotos: grilla 2-3 columnas */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {/* Sin fotos: 4 columnas en desktop */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {basic.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
     </div>
