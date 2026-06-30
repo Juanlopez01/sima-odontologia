@@ -149,7 +149,7 @@ function ServicioCard({ s }: { s: Servicio }) {
 
       {/* Carousel de múltiples casos */}
       {s.casos && (
-        <CasosCarousel casos={s.casos} titulo={s.titulo} />
+        <CasosCarousel casos={s.casos} titulo={s.titulo} vertical />
       )}
 
       {/* Galería de múltiples fotos (2x2) */}

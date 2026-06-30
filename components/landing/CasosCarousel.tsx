@@ -10,7 +10,7 @@ export type Caso = {
   labelDespues?: string;
 };
 
-export default function CasosCarousel({ casos, titulo }: { casos: Caso[]; titulo: string }) {
+export default function CasosCarousel({ casos, titulo, vertical = false }: { casos: Caso[]; titulo: string; vertical?: boolean }) {
   const [idx, setIdx] = useState(0);
   const [ampliada, setAmpliada] = useState<string | null>(null);
   const caso = casos[idx];
@@ -21,14 +21,14 @@ export default function CasosCarousel({ casos, titulo }: { casos: Caso[]; titulo
   return (
     <>
       <div className="flex flex-col gap-0">
-        {/* Fotos apiladas: antes arriba, después abajo */}
-        <div className="flex flex-col">
+        {/* Fotos: apiladas (vertical) o lado a lado */}
+        <div className={vertical ? "flex flex-col" : "grid grid-cols-2"}>
           {(["antes", "despues"] as const).map((key) => (
             <button
               key={key}
               onClick={() => setAmpliada(caso[key])}
               aria-label={`Ampliar ${key === "antes" ? "Antes" : (caso.labelDespues ?? "Después")}`}
-              className="relative aspect-[16/9] group cursor-zoom-in focus:outline-none"
+              className={`relative group cursor-zoom-in focus:outline-none ${vertical ? "aspect-[16/9]" : "aspect-[4/3]"}`}
             >
               <Image
                 src={caso[key]}
