@@ -59,11 +59,11 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="min-h-[100svh] pt-14 bg-white flex flex-col overflow-hidden">
-      <div className="max-w-5xl mx-auto px-5 flex-1 grid lg:grid-cols-2 gap-10 items-center py-10">
+    <section className="pt-14 bg-white flex flex-col overflow-hidden lg:min-h-[100svh]">
+      <div className="max-w-5xl mx-auto px-5 flex-1 grid lg:grid-cols-2 gap-6 lg:gap-10 items-center py-6 lg:py-10">
 
         {/* ── Contenido ── */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 lg:gap-6">
 
           {/* Badge */}
           <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-sima-light border border-sima-gray text-xs font-bold text-sima-mid tracking-wide uppercase">
@@ -154,10 +154,10 @@ function Hero() {
       {/* Foto mobile — tira debajo del contenido */}
       <div className="lg:hidden relative h-48 mx-5 mb-6 rounded-2xl overflow-hidden">
         <Image
-          src="/consul1.jpeg"
+          src="/consul7.jpeg"
           alt="Consultorio SIMA Odontología"
           fill
-          className="object-cover object-top"
+          className="object-cover object-center"
           sizes="100vw"
           priority
         />
