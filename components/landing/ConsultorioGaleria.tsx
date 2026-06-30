@@ -31,7 +31,7 @@ export default function ConsultorioGaleria() {
               sizes="33vw"
             />
             <span className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-            <span className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center opacity-60 group-hover:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
               <ZoomIn className="w-4 h-4 text-white" />
             </span>
           </button>

@@ -45,7 +45,7 @@ export default function CasosCarousel({ casos, titulo, vertical = false }: { cas
               `}>
                 {key === "antes" ? "Antes" : (caso.labelDespues ?? "Después")}
               </span>
-              <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/40 flex items-center justify-center opacity-60 group-hover:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                 <ZoomIn className="w-3.5 h-3.5 text-white" />
               </span>
             </button>

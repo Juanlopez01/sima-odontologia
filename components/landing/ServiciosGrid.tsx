@@ -67,7 +67,7 @@ const SERVICIOS: Servicio[] = [
     sesiones: "1 sesión",
     whatsapp: true,
     casos: [
-      { antes: "/caries-antes.jpeg", despues: "/caries-despues.jpeg" },
+      { antes: "/caries-antes.png", despues: "/caries-despues.png" },
     ],
   },
   {
