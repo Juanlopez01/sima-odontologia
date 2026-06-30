@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Clock, CreditCard, Banknote, MessageCircle, ArrowRight, Images } from "lucide-react";
+import CasosCarousel, { type Caso } from "./CasosCarousel";
 
 type Precios = { debito: string; efectivo: string };
 type Fotos   = { antes: string; despues: string; labelDespues?: string };
@@ -13,6 +14,7 @@ type Servicio = {
   sesiones: string;
   precios?: Precios;
   fotos?: Fotos;
+  casos?: Caso[];
   galeria?: string[];
   whatsapp?: true;
   verFotos?: true;
@@ -64,6 +66,9 @@ const SERVICIOS: Servicio[] = [
     descripcion: "Eliminación de caries y reconstrucción con resinas compuestas de última generación. Resultado imperceptible y duradero.",
     sesiones: "1 sesión",
     whatsapp: true,
+    casos: [
+      { antes: "/caries-antes.jpeg", despues: "/caries-despues.jpeg" },
+    ],
   },
   {
     num: "06",
@@ -137,27 +142,14 @@ function ServicioCard({ s }: { s: Servicio }) {
 
   return (
     <article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full">
-      {/* Fotos antes/después */}
+      {/* Fotos antes/después con zoom */}
       {s.fotos && (
-        <div className="grid grid-cols-2">
-          {(["antes", "despues"] as const).map((key) => (
-            <div key={key} className="relative aspect-[4/3]">
-              <Image
-                src={s.fotos![key]}
-                alt={`${s.titulo} — ${key === "antes" ? "Antes" : (s.fotos!.labelDespues ?? "Después")}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 50vw, 400px"
-              />
-              <span className={`
-                absolute bottom-2 left-2 text-[11px] font-bold px-2 py-0.5 rounded-full
-                ${key === "antes" ? "bg-black/50 text-white/90" : "bg-sima-accent/90 text-white"}
-              `}>
-                {key === "antes" ? "Antes" : (s.fotos!.labelDespues ?? "Después")}
-              </span>
-            </div>
-          ))}
-        </div>
+        <CasosCarousel casos={[s.fotos]} titulo={s.titulo} />
+      )}
+
+      {/* Carousel de múltiples casos */}
+      {s.casos && (
+        <CasosCarousel casos={s.casos} titulo={s.titulo} />
       )}
 
       {/* Galería de múltiples fotos (2x2) */}
@@ -239,8 +231,8 @@ function ServicioCard({ s }: { s: Servicio }) {
 }
 
 export default function ServiciosGrid() {
-  const featured = SERVICIOS.filter((s) => s.fotos);
-  const basic    = SERVICIOS.filter((s) => !s.fotos);
+  const featured = SERVICIOS.filter((s) => s.fotos || s.casos || s.galeria);
+  const basic    = SERVICIOS.filter((s) => !s.fotos && !s.casos && !s.galeria);
 
   return (
     <div className="flex flex-col gap-4">

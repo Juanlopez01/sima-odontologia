@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 const FOTOS = [
   { src: "/consul6.jpeg", alt: "Sillón dental SIMA Odontología" },
@@ -30,7 +30,10 @@ export default function ConsultorioGaleria() {
               className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
               sizes="33vw"
             />
-            <span className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300" />
+            <span className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+            <span className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <ZoomIn className="w-4 h-4 text-white" />
+            </span>
           </button>
         ))}
       </div>
