@@ -21,26 +21,27 @@ export default function CasosCarousel({ casos, titulo }: { casos: Caso[]; titulo
   return (
     <>
       <div className="flex flex-col gap-0">
-        {/* Fotos antes/después */}
-        <div className="grid grid-cols-2">
+        {/* Fotos apiladas: antes arriba, después abajo */}
+        <div className="flex flex-col">
           {(["antes", "despues"] as const).map((key) => (
             <button
               key={key}
               onClick={() => setAmpliada(caso[key])}
               aria-label={`Ampliar ${key === "antes" ? "Antes" : (caso.labelDespues ?? "Después")}`}
-              className="relative aspect-[4/3] group cursor-zoom-in focus:outline-none"
+              className="relative aspect-[16/9] group cursor-zoom-in focus:outline-none"
             >
               <Image
                 src={caso[key]}
                 alt={`${titulo} — ${key === "antes" ? "Antes" : (caso.labelDespues ?? "Después")}`}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 640px) 50vw, 400px"
+                className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, 600px"
               />
               <span className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+              {/* Label estilo referencia */}
               <span className={`
-                absolute bottom-2 left-2 text-[11px] font-bold px-2 py-0.5 rounded-full
-                ${key === "antes" ? "bg-black/50 text-white/90" : "bg-sima-accent/90 text-white"}
+                absolute top-2 left-2 text-[11px] font-black px-2.5 py-1 rounded-lg tracking-widest uppercase
+                ${key === "antes" ? "bg-black/60 text-white" : "bg-sima-accent text-white"}
               `}>
                 {key === "antes" ? "Antes" : (caso.labelDespues ?? "Después")}
               </span>
