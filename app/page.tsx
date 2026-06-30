@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ServiciosGrid from "@/components/landing/ServiciosGrid";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 import HeroGallery from "@/components/landing/HeroGallery";
+import ConsultorioGaleria from "@/components/landing/ConsultorioGaleria";
 
 /* ─── Ícono diente ───────────────────────────────────────────────── */
 
@@ -255,11 +256,11 @@ function HorariosSection() {
           {/* Fotos consultorio — solo mobile */}
           <div className="grid grid-cols-2 gap-2 lg:hidden">
             {[
-              { src: "/fachada.png",  alt: "Fachada SIMA Odontología", pos: "object-center" },
-              { src: "/consul2.jpeg", alt: "Interior del consultorio SIMA", pos: "object-center" },
-            ].map(({ src, alt, pos }) => (
+              { src: "/consul6.jpeg", alt: "Sillón dental SIMA Odontología" },
+              { src: "/consul7.jpeg", alt: "Consultorio SIMA Odontología" },
+            ].map(({ src, alt }) => (
               <div key={src} className="relative rounded-2xl overflow-hidden aspect-[3/2]">
-                <Image src={src} alt={alt} fill className={`object-cover ${pos}`} sizes="45vw" />
+                <Image src={src} alt={alt} fill className="object-cover object-center" sizes="45vw" />
               </div>
             ))}
           </div>
@@ -300,17 +301,9 @@ function HorariosSection() {
 
         </div>
 
-        {/* Fotos consultorio — fila completa (desktop) */}
-        <div className="hidden lg:grid grid-cols-3 gap-3 mt-8">
-          {[
-            { src: "/fachada.png",  alt: "Fachada SIMA Odontología" },
-            { src: "/consul2.jpeg", alt: "Interior del consultorio SIMA" },
-            { src: "/consul4.jpeg", alt: "Consultorio SIMA Odontología" },
-          ].map(({ src, alt }) => (
-            <div key={src} className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <Image src={src} alt={alt} fill className="object-cover object-center" sizes="33vw" />
-            </div>
-          ))}
+        {/* Fotos consultorio — fila completa (desktop, con lightbox) */}
+        <div className="hidden lg:block">
+          <ConsultorioGaleria />
         </div>
 
       </div>
