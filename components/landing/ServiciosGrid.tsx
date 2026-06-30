@@ -170,22 +170,22 @@ function ServicioCard({ s }: { s: Servicio }) {
       )}
 
       {/* Info */}
-      <div className="p-5 flex flex-col gap-4 flex-1">
+      <div className="p-4 flex flex-col gap-3 flex-1">
         {/* Header */}
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-2">
           <div>
-            <span className="text-[11px] font-bold text-white/30 tracking-widest">{s.num}</span>
-            <h3 className="text-lg font-black text-white leading-tight mt-0.5">{s.titulo}</h3>
+            <span className="text-[10px] font-bold text-white/30 tracking-widest">{s.num}</span>
+            <h3 className="text-base font-black text-white leading-tight mt-0.5">{s.titulo}</h3>
             <p className="text-xs text-white/40 font-medium">{s.sub}</p>
           </div>
-          <div className="shrink-0 flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1">
+          <div className="shrink-0 flex items-center gap-1 bg-white/5 rounded-full px-2.5 py-1">
             <Clock className="w-3 h-3 text-white/40" />
-            <span className="text-xs font-bold text-white/60 whitespace-nowrap">{s.sesiones}</span>
+            <span className="text-[11px] font-bold text-white/60 whitespace-nowrap">{s.sesiones}</span>
           </div>
         </div>
 
         {/* Descripción */}
-        <p className="text-white/60 text-sm leading-relaxed">{s.descripcion}</p>
+        <p className="text-white/60 text-xs leading-relaxed line-clamp-3">{s.descripcion}</p>
 
         {/* Precios / botones */}
         <div className="mt-auto flex flex-col gap-2">
@@ -236,13 +236,13 @@ export default function ServiciosGrid() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Con fotos: 2 columnas */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      {/* Con fotos: 2 cols mobile, 3 cols desktop */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {featured.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
 
       {/* Sin fotos: grilla 2-3 columnas */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {basic.map((s) => <ServicioCard key={s.num} s={s} />)}
       </div>
     </div>
