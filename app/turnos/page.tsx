@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowLeft } from "lucide-react";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import CalendarioPublico from "@/components/turnos/CalendarioPublico";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 
 /* ─── Fetch de turnos ocupados ─────────────────────────────────── */
 
 async function getTurnosOcupados(): Promise<Record<string, string[]>> {
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdminClient();
 
   // Traemos solo turnos pendientes y confirmados desde hoy en adelante
   const hoy = new Date().toISOString().split("T")[0];

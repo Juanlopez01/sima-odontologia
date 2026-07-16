@@ -5,20 +5,20 @@ import { Search, User, ChevronRight } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 interface Props {
-  searchParams: Promise<{ dni?: string }>;
+  searchParams: Promise<{ q?: string }>;
 }
 
 export default async function PacientesPage({ searchParams }: Props) {
-  const { dni } = await searchParams;
+  const { q } = await searchParams;
   const supabase = getSupabaseAdminClient();
 
   let pacientes: { id: string; nombre_completo: string; dni: string; telefono: string | null; fecha_nacimiento: string }[] = [];
 
-  if (dni?.trim()) {
+  if (q?.trim()) {
     const { data } = await supabase
       .from("pacientes")
       .select("*")
-      .ilike("dni", `%${dni.trim()}%`)
+      .ilike("nombre_completo", `%${q.trim()}%`)
       .order("nombre_completo");
     pacientes = data ?? [];
   }
@@ -27,7 +27,7 @@ export default async function PacientesPage({ searchParams }: Props) {
     <div className="flex flex-col gap-6 max-w-2xl">
       <div>
         <h1 className="text-2xl font-extrabold text-sima-dark">Pacientes</h1>
-        <p className="text-slate-500 text-sm mt-1">Buscá por DNI para acceder a la ficha y el odontograma.</p>
+        <p className="text-slate-500 text-sm mt-1">Buscá por nombre o apellido para acceder a la ficha y el odontograma.</p>
       </div>
 
       {/* Buscador */}
@@ -35,11 +35,10 @@ export default async function PacientesPage({ searchParams }: Props) {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           <input
-            name="dni"
+            name="q"
             type="text"
-            inputMode="numeric"
-            defaultValue={dni ?? ""}
-            placeholder="Ingresá el DNI del paciente..."
+            defaultValue={q ?? ""}
+            placeholder="Ingresá el nombre o apellido del paciente..."
             autoFocus
             className="w-full pl-9 pr-4 py-3 rounded-xl border border-sima-gray bg-white text-sima-dark placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sima-accent/40 focus:border-sima-accent transition-colors"
           />
@@ -53,12 +52,12 @@ export default async function PacientesPage({ searchParams }: Props) {
       </form>
 
       {/* Resultados */}
-      {dni && (
+      {q && (
         <section>
           <p className="text-sm text-slate-500 mb-3">
             {pacientes.length === 0
-              ? `Sin resultados para "${dni}"`
-              : `${pacientes.length} resultado${pacientes.length !== 1 ? "s" : ""} para "${dni}"`}
+              ? `Sin resultados para "${q}"`
+              : `${pacientes.length} resultado${pacientes.length !== 1 ? "s" : ""} para "${q}"`}
           </p>
 
           <div className="flex flex-col gap-2">
@@ -89,10 +88,10 @@ export default async function PacientesPage({ searchParams }: Props) {
         </section>
       )}
 
-      {!dni && (
+      {!q && (
         <div className="bg-white rounded-xl border border-sima-gray p-10 text-center text-slate-400 flex flex-col items-center gap-2">
           <Search className="w-10 h-10 text-slate-200" />
-          <p className="font-medium">Ingresá un DNI para buscar</p>
+          <p className="font-medium">Ingresá un nombre o apellido para buscar</p>
         </div>
       )}
     </div>
