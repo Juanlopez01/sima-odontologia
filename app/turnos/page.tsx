@@ -5,38 +5,47 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import CalendarioPublico from "@/components/turnos/CalendarioPublico";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 
-/* ─── Fetch de turnos ocupados ─────────────────────────────────── */
+/* ─── Fetch de datos del calendario ────────────────────────────── */
 
-async function getTurnosOcupados(): Promise<Record<string, string[]>> {
+async function getDatosCalendario(): Promise<{
+  turnosOcupados: Record<string, string[]>;
+  diasBloqueados: string[];
+}> {
   const supabase = getSupabaseAdminClient();
-
-  // Traemos solo turnos pendientes y confirmados desde hoy en adelante
   const hoy = new Date().toISOString().split("T")[0];
 
-  const { data, error } = await supabase
-    .from("turnos")
-    .select("fecha_turno, hora_turno")
-    .gte("fecha_turno", hoy)
-    .in("estado", ["pendiente", "confirmado"]);
+  const [{ data: turnos }, { data: bloqueados }] = await Promise.all([
+    supabase
+      .from("turnos")
+      .select("fecha_turno, hora_turno")
+      .gte("fecha_turno", hoy)
+      .in("estado", ["pendiente", "confirmado"]),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any)
+      .from("dias_bloqueados")
+      .select("fecha")
+      .gte("fecha", hoy),
+  ]);
 
-  if (error || !data) return {};
-
-  // Agrupar por fecha → array de horarios "HH:MM"
-  return data.reduce<Record<string, string[]>>((acc, turno) => {
+  const turnosOcupados = (turnos ?? []).reduce<Record<string, string[]>>((acc, turno) => {
     const fecha = turno.fecha_turno;
-    // hora_turno viene como "HH:MM:SS", normalizamos a "HH:MM"
     const hora = turno.hora_turno.slice(0, 5);
     acc[fecha] = [...(acc[fecha] ?? []), hora];
     return acc;
   }, {});
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const diasBloqueados: string[] = (bloqueados ?? []).map((d: any) => d.fecha as string);
+
+  return { turnosOcupados, diasBloqueados };
 }
 
 /* ─── Page ─────────────────────────────────────────────────────── */
 
-export const dynamic = "force-dynamic"; // siempre fresco, nunca cacheado
+export const dynamic = "force-dynamic";
 
 export default async function TurnosPage() {
-  const turnosOcupados = await getTurnosOcupados();
+  const { turnosOcupados, diasBloqueados } = await getDatosCalendario();
 
   return (
     <>
@@ -95,7 +104,7 @@ export default async function TurnosPage() {
           </div>
 
           {/* Calendario principal */}
-          <CalendarioPublico turnosOcupados={turnosOcupados} />
+          <CalendarioPublico turnosOcupados={turnosOcupados} diasBloqueados={diasBloqueados} />
         </div>
       </main>
 

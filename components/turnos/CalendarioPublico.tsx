@@ -1,17 +1,20 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ChevronLeft, ChevronRight, Clock, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Loader2, CalendarX } from "lucide-react";
 import { agendarTurno } from "@/app/turnos/actions";
 
 /* ─── Configuración de la agenda ───────────────────────────────── */
 
 const HORARIOS = [
-  "09:00", "10:00", "11:00", "12:00",
-  "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
+  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
+  "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
 ];
 
 const HORARIOS_ENDODONCIA = ["14:00", "15:00", "16:00", "17:00"];
+
+// Motivos que requieren 2 turnos consecutivos
+const MOTIVOS_LARGOS = new Set(["Implantología", "Postes", "Coronas"]);
 
 function isTercerJueves(date: Date): boolean {
   if (date.getDay() !== 4) return false;
@@ -47,8 +50,8 @@ function getFirstDayOfMonth(year: number, month: number) {
 /* ─── Props ────────────────────────────────────────────────────── */
 
 interface Props {
-  // Slots ocupados: Map de "YYYY-MM-DD" → Set de "HH:MM"
   turnosOcupados: Record<string, string[]>;
+  diasBloqueados: string[];
 }
 
 /* ─── Formulario ───────────────────────────────────────────────── */
@@ -57,16 +60,21 @@ function FormularioTurno({
   fecha,
   hora,
   esEndodoncia,
+  ocupados,
+  horarios,
   onCancel,
 }: {
   fecha: Date;
   hora: string;
   esEndodoncia: boolean;
+  ocupados: string[];
+  horarios: string[];
   onCancel: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
   const [exito, setExito] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [motivo, setMotivo] = useState("");
 
   const fechaLegible = fecha.toLocaleDateString("es-AR", {
     weekday: "long",
@@ -75,8 +83,22 @@ function FormularioTurno({
     day: "numeric",
   });
 
+  // Lógica de doble turno para tratamientos largos
+  const esLargo = !esEndodoncia && MOTIVOS_LARGOS.has(motivo);
+  const idxHora = horarios.indexOf(hora);
+  const nextSlot = idxHora >= 0 && idxHora < horarios.length - 1 ? horarios[idxHora + 1] : null;
+  const sinNextSlot = esLargo && !nextSlot;
+  const nextSlotOcupado = esLargo && nextSlot ? ocupados.includes(nextSlot) : false;
+
+  const largoError = sinNextSlot
+    ? `Este tratamiento ocupa 2 turnos. No hay horario disponible después de las ${hora}.`
+    : nextSlotOcupado && nextSlot
+      ? `El horario siguiente (${nextSlot}) ya está reservado. Elegí otro horario.`
+      : null;
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (largoError) return;
     const form = e.currentTarget;
     const data = new FormData(form);
 
@@ -86,9 +108,10 @@ function FormularioTurno({
         dni: data.get("dni") as string,
         telefono: data.get("telefono") as string,
         fecha_nacimiento: data.get("fecha_nacimiento") as string,
-        motivo: data.get("motivo") as string,
+        motivo: motivo || "Sin especificar",
         fecha_turno: toISO(fecha),
         hora_turno: hora,
+        hora_turno_2: esLargo && nextSlot ? nextSlot : undefined,
       });
 
       if (result.error) {
@@ -111,7 +134,10 @@ function FormularioTurno({
         <p className="text-slate-500 max-w-xs">
           Tu solicitud fue registrada para el{" "}
           <span className="font-semibold text-sima-dark">{fechaLegible}</span> a las{" "}
-          <span className="font-semibold text-sima-dark">{hora}hs</span>.
+          <span className="font-semibold text-sima-dark">{hora}hs</span>
+          {esLargo && nextSlot && (
+            <> y las <span className="font-semibold text-sima-dark">{nextSlot}hs</span></>
+          )}.
         </p>
 
         {/* Datos de seña */}
@@ -242,21 +268,40 @@ function FormularioTurno({
           <select
             id="motivo"
             name="motivo"
-            defaultValue=""
+            value={motivo}
+            onChange={(e) => setMotivo(e.target.value)}
             className="px-3 py-2.5 rounded-lg border border-sima-gray bg-white text-sima-dark focus:outline-none focus:ring-2 focus:ring-sima-accent/40 focus:border-sima-accent transition-colors"
           >
             <option value="" disabled>Seleccioná un motivo...</option>
             <option value="Primera consulta">Primera consulta (sin cargo)</option>
             <option value="Estética dental">Estética dental</option>
-            <option value="Implantología">Implantología</option>
-            <option value="Restauración">Restauración</option>
             <option value="Blanqueamiento">Blanqueamiento</option>
+            <option value="Restauración">Restauración</option>
             <option value="Control">Control</option>
             <option value="Urgencia">Urgencia</option>
+            <option value="Implantología">Implantología (ocupa 2 turnos)</option>
+            <option value="Postes">Postes (ocupa 2 turnos)</option>
+            <option value="Coronas">Coronas (ocupa 2 turnos)</option>
             <option value="Otro">Otro</option>
           </select>
         )}
       </div>
+
+      {/* Aviso doble turno */}
+      {esLargo && !largoError && nextSlot && (
+        <div className="rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 flex flex-col gap-1">
+          <p className="text-sm font-bold text-violet-800">Este tratamiento ocupa 2 turnos seguidos</p>
+          <p className="text-xs text-violet-700">
+            Se reservarán los horarios de las <strong>{hora}hs</strong> y las <strong>{nextSlot}hs</strong>.
+          </p>
+        </div>
+      )}
+
+      {largoError && (
+        <p className="text-sm text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+          {largoError}
+        </p>
+      )}
 
       {/* Aviso seña */}
       <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col gap-1">
@@ -276,7 +321,7 @@ function FormularioTurno({
         </button>
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || !!largoError}
           className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-sima-accent text-white font-bold hover:bg-sima-accent-hover disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           {isPending ? (
@@ -353,11 +398,10 @@ function SelectorHorarios({
 
 /* ─── Calendario ───────────────────────────────────────────────── */
 
-export default function CalendarioPublico({ turnosOcupados }: Props) {
+export default function CalendarioPublico({ turnosOcupados, diasBloqueados }: Props) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // El primer día reservable es mañana (no se toman turnos para el mismo día)
   const minDate = new Date(today);
   minDate.setDate(minDate.getDate() + 1);
 
@@ -389,22 +433,22 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
     setSelectedHora(null);
   }
 
-  function handleSelectHora(hora: string) {
-    setSelectedHora(hora);
-  }
-
   function handleCancel() {
     setSelectedHora(null);
-    // Mantiene la fecha seleccionada para que vean los horarios
   }
 
-  // Días inhabilitados: hoy inclusive, pasados y domingos
   function isDayDisabled(day: number) {
     const date = new Date(viewYear, viewMonth, day);
-    return date < minDate || date.getDay() === 0;
+    if (date < minDate || date.getDay() === 0) return true;
+    if (diasBloqueados.includes(toISO(date))) return true;
+    return false;
   }
 
-  // Slots ocupados para la fecha seleccionada
+  function isDayBloqueado(day: number) {
+    const date = new Date(viewYear, viewMonth, day);
+    return diasBloqueados.includes(toISO(date));
+  }
+
   const ocupadosHoy = selectedDate
     ? (turnosOcupados[toISO(selectedDate)] ?? [])
     : [];
@@ -412,11 +456,9 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
   const esEndodonciaHoy = selectedDate ? isTercerJueves(selectedDate) : false;
   const horariosHoy = esEndodonciaHoy ? HORARIOS_ENDODONCIA : HORARIOS;
 
-  // Celda vacía inicial para alinear la grilla
   const blanks = Array.from({ length: firstDay });
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
-  // No permitir navegar antes del mes actual
   const isPrevDisabled =
     viewYear === today.getFullYear() && viewMonth === today.getMonth();
 
@@ -463,20 +505,21 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
           {days.map((day) => {
             const date = new Date(viewYear, viewMonth, day);
             const disabled = isDayDisabled(day);
+            const bloqueado = isDayBloqueado(day);
             const isToday = isSameDay(date, today);
             const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
             const isoDate = toISO(date);
             const esTercerJueves = isTercerJueves(date);
             const horariosDelDia = esTercerJueves ? HORARIOS_ENDODONCIA : HORARIOS;
             const hasSlotsTaken = !disabled && (turnosOcupados[isoDate]?.length ?? 0) > 0;
-            const fullyBooked = !disabled && (turnosOcupados[isoDate]?.length ?? 0) >= horariosDelDia.length;
+            const fullyBooked = !disabled && !bloqueado && (turnosOcupados[isoDate]?.length ?? 0) >= horariosDelDia.length;
 
             return (
               <button
                 key={day}
                 onClick={() => !disabled && !fullyBooked && handleSelectDay(day)}
                 disabled={disabled || fullyBooked}
-                aria-label={`${day} de ${MESES[viewMonth]}${esTercerJueves ? " — Endodoncia" : ""}`}
+                aria-label={`${day} de ${MESES[viewMonth]}${esTercerJueves ? " — Endodoncia" : ""}${bloqueado ? " — Cerrado" : ""}`}
                 aria-pressed={isSelected}
                 className={`
                   relative mx-auto w-11 h-11 rounded-xl text-base font-semibold
@@ -494,7 +537,12 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
                 `}
               >
                 {day}
-                {hasSlotsTaken && !fullyBooked && !isSelected && (
+                {bloqueado && (
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <CalendarX className="w-3 h-3 text-slate-400" />
+                  </span>
+                )}
+                {hasSlotsTaken && !fullyBooked && !isSelected && !bloqueado && (
                   <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-amber-400" />
                 )}
               </button>
@@ -541,7 +589,7 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
             ocupados={ocupadosHoy}
             horarios={horariosHoy}
             esEndodoncia={esEndodonciaHoy}
-            onSelect={handleSelectHora}
+            onSelect={setSelectedHora}
           />
         )}
 
@@ -550,6 +598,8 @@ export default function CalendarioPublico({ turnosOcupados }: Props) {
             fecha={selectedDate}
             hora={selectedHora}
             esEndodoncia={esEndodonciaHoy}
+            ocupados={ocupadosHoy}
+            horarios={horariosHoy}
             onCancel={handleCancel}
           />
         )}

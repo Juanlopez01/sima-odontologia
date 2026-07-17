@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, PlusCircle, ClipboardList } from "lucide-react";
+import { LayoutDashboard, Users, PlusCircle, ClipboardList, CalendarX } from "lucide-react";
 
 const NAV = [
   { href: "/admin",            label: "Turnos",    icon: LayoutDashboard },
   { href: "/admin/pacientes",  label: "Pacientes", icon: Users           },
   { href: "/admin/historial",  label: "Historial", icon: ClipboardList   },
+  { href: "/admin/agenda",     label: "Agenda",    icon: CalendarX       },
 ];
 
 export function AdminNav() {
@@ -58,9 +59,12 @@ export function AdminBottomNav() {
     return pathname === href || pathname.startsWith(href + "/");
   }
 
-  const ALL = [
-    ...NAV,
-    { href: "/admin/turnos/nuevo", label: "Nueva cita", icon: PlusCircle },
+  // En mobile solo mostramos los 4 más usados (Agenda queda en el sidebar desktop)
+  const BOTTOM = [
+    { href: "/admin",              label: "Turnos",    icon: LayoutDashboard },
+    { href: "/admin/pacientes",    label: "Pacientes", icon: Users           },
+    { href: "/admin/historial",    label: "Historial", icon: ClipboardList   },
+    { href: "/admin/turnos/nuevo", label: "Nueva cita", icon: PlusCircle    },
   ];
 
   return (
@@ -68,7 +72,7 @@ export function AdminBottomNav() {
       className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-sima-dark border-t border-white/5 flex items-stretch"
       aria-label="Navegación admin"
     >
-      {ALL.map(({ href, icon: Icon, label }) => {
+      {BOTTOM.map(({ href, icon: Icon, label }) => {
         const active = isActive(href);
         return (
           <Link
