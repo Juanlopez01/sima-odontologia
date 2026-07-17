@@ -59,11 +59,10 @@ export function AdminBottomNav() {
     return pathname === href || pathname.startsWith(href + "/");
   }
 
-  // En mobile solo mostramos los 4 más usados (Agenda queda en el sidebar desktop)
   const BOTTOM = [
     { href: "/admin",              label: "Turnos",    icon: LayoutDashboard },
     { href: "/admin/pacientes",    label: "Pacientes", icon: Users           },
-    { href: "/admin/historial",    label: "Historial", icon: ClipboardList   },
+    { href: "/admin/agenda",       label: "Agenda",    icon: CalendarX       },
     { href: "/admin/turnos/nuevo", label: "Nueva cita", icon: PlusCircle    },
   ];
 
